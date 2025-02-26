@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "boot"
 
 require "rails/all"
@@ -26,6 +28,5 @@ module Blogit
     config.generators do |g|
       g.test_framework :test_unit, fixture: false
     end
-
   end
 end
