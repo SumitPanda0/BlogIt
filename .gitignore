@@ -17,6 +17,8 @@ coverage
 .*swp
 /uploads/*
 .byebug_history
+.cursorrules
+instructions.md
 
 # Ignore node packages
 node_modules
