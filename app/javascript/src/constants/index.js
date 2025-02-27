@@ -1,3 +1,3 @@
-import { BASE_URL } from "./url";
+import { BASE_URL, POSTS_URL, LIST_URL } from "./url";
 
-export { BASE_URL };
+export { BASE_URL, POSTS_URL, LIST_URL };

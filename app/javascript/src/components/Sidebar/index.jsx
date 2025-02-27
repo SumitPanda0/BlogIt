@@ -6,6 +6,8 @@ import classnames from "classnames";
 import { equals } from "ramda";
 import { NavLink, useLocation } from "react-router-dom";
 
+import { POSTS, LIST, PROFILE } from "../constants";
+
 const Sidebar = () => {
   const location = useLocation();
 
@@ -24,35 +26,27 @@ const Sidebar = () => {
           activeClassName="bg-gray-100"
           className="rounded-lg p-3 transition-colors hover:bg-gray-100"
           title="Blog Posts"
-          to="/blogs"
-          onClick={e => {
-            if (isActive("/blogs")) {
-              e.preventDefault();
+          to={POSTS}
+          onClick={event => {
+            if (isActive(POSTS)) {
+              event.preventDefault();
             }
           }}
         >
-          <Button
-            className={getButtonClass("/blogs")}
-            icon={Book}
-            style="link"
-          />
+          <Button className={getButtonClass(POSTS)} icon={Book} style="link" />
         </NavLink>
         <NavLink
           activeClassName="bg-gray-100"
           className="rounded-lg p-3 transition-colors hover:bg-gray-100"
           title="List"
-          to="/list"
-          onClick={e => {
-            if (isActive("/list")) {
-              e.preventDefault();
+          to={LIST}
+          onClick={event => {
+            if (isActive(LIST)) {
+              event.preventDefault();
             }
           }}
         >
-          <Button
-            className={getButtonClass("/list")}
-            icon={List}
-            style="link"
-          />
+          <Button className={getButtonClass(LIST)} icon={List} style="link" />
         </NavLink>
       </div>
       <div className="mb-4 mt-auto">
@@ -60,10 +54,10 @@ const Sidebar = () => {
           activeClassName="text-blue-500"
           className="transition-colors"
           title="Profile"
-          to="/profile"
-          onClick={e => {
-            if (isActive("/profile")) {
-              e.preventDefault();
+          to={PROFILE}
+          onClick={event => {
+            if (isActive(PROFILE)) {
+              event.preventDefault();
             }
           }}
         >

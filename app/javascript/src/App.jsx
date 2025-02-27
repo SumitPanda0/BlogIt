@@ -17,10 +17,10 @@ const App = () => (
       <Sidebar />
       <div className="ml-16 flex-1 overflow-auto p-6">
         <Switch>
-          <Route exact component={Posts} path="/blogs" />
+          <Route exact component={Posts} path="/posts" />
           <Route exact component={List} path="/list" />
           <Route exact path="/">
-            <Redirect to="/blogs" />
+            <Redirect to="/posts" />
           </Route>
         </Switch>
       </div>
