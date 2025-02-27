@@ -52,7 +52,9 @@ const Posts = () => {
           {posts.map(post => (
             <div className="py-6" key={post.id}>
               <h2 className="mb-2 text-xl font-semibold">{post.title}</h2>
-              <p className="mb-1 w-[80%] text-gray-700">{post.description}</p>
+              <p className="mb-1 line-clamp-2 w-[80%] text-gray-700">
+                {post.description}
+              </p>
               <div className="text-xs text-gray-500">
                 {post.created_at
                   ? formatDate(post.created_at)
