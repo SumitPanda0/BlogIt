@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { Link } from "react-router-dom";
+
 import postsApi from "../../apis/posts";
 import { PageLoader } from "../../common/PageLoader";
 
@@ -13,7 +15,12 @@ const Posts = () => {
       const {
         data: { posts },
       } = await postsApi.fetch();
-      setPosts(posts);
+
+      const sortedPosts = [...posts].sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+      );
+
+      setPosts(sortedPosts);
     } catch (err) {
       setError(err);
     } finally {
@@ -47,7 +54,12 @@ const Posts = () => {
     <div className="flex flex-col">
       <div className="flex items-center space-x-4 px-4 pb-4" />
       <div className="px-8">
-        <h1 className="mb-8 text-4xl font-bold">Blog posts</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="mb-8 text-4xl font-bold">Blog posts</h1>
+          <Link className="bg-black px-4 py-2 text-white" to="/posts/create">
+            Add new blog post
+          </Link>
+        </div>
         <div className="divide-y">
           {posts.map(post => (
             <div className="py-6" key={post.id}>
