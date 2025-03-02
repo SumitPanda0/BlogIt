@@ -1,12 +1,12 @@
 import React from "react";
 
-import { List, Book } from "@bigbinary/neeto-icons";
+import { List, Book, Edit } from "@bigbinary/neeto-icons";
 import { Avatar, Button } from "@bigbinary/neetoui";
 import classnames from "classnames";
 import { equals } from "ramda";
 import { NavLink, useLocation } from "react-router-dom";
 
-import { POSTS, LIST, PROFILE } from "../constants";
+import { POSTS, LIST, PROFILE, CREATE_POST } from "../constants";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -47,6 +47,23 @@ const Sidebar = () => {
           }}
         >
           <Button className={getButtonClass(LIST)} icon={List} style="link" />
+        </NavLink>
+        <NavLink
+          activeClassName="bg-gray-100"
+          className="rounded-lg p-3 transition-colors hover:bg-gray-100"
+          title="Add new blog post"
+          to={CREATE_POST}
+          onClick={event => {
+            if (isActive(CREATE_POST)) {
+              event.preventDefault();
+            }
+          }}
+        >
+          <Button
+            className={getButtonClass(CREATE_POST)}
+            icon={Edit}
+            style="link"
+          />
         </NavLink>
       </div>
       <div className="mb-4 mt-auto">
