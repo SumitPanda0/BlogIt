@@ -12,6 +12,11 @@ class Api::V1::PostsController < ApplicationController
     render_notice("Post was successfully created")
   end
 
+  def show
+    post = Post.find_by!(slug: params[:slug])
+    render_json({ post: post })
+  end
+
   private
 
     def post_params
