@@ -10,6 +10,7 @@ import {
 import List from "./components/List";
 import Posts from "./components/Posts";
 import CreatePost from "./components/Posts/Create";
+import ShowPost from "./components/Posts/Show";
 import Sidebar from "./components/Sidebar";
 
 const App = () => (
@@ -18,6 +19,7 @@ const App = () => (
       <Sidebar />
       <div className="ml-16 flex-1 overflow-auto p-6">
         <Switch>
+          <Route exact component={ShowPost} path="/posts/:slug/show" />
           <Route exact component={CreatePost} path="/posts/create" />
           <Route exact component={Posts} path="/posts" />
           <Route exact component={List} path="/list" />

@@ -63,7 +63,9 @@ const Posts = () => {
         <div className="divide-y">
           {posts.map(post => (
             <div className="py-6" key={post.id}>
-              <h2 className="mb-2 text-xl font-semibold">{post.title}</h2>
+              <Link to={`/posts/${post.slug}/show`}>
+                <h2 className="mb-2 text-xl font-semibold">{post.title}</h2>
+              </Link>
               <p className="mb-1 line-clamp-2 w-[80%] text-gray-700">
                 {post.description}
               </p>
