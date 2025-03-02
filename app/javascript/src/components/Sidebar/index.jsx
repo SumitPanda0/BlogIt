@@ -23,41 +23,29 @@ const Sidebar = () => {
     <div className="fixed flex h-full w-16 flex-col items-center py-6 text-white shadow-lg">
       <div className="flex flex-col space-y-6">
         <NavLink
+          exact
           activeClassName="bg-gray-100"
           className="rounded-lg p-3 transition-colors hover:bg-gray-100"
           title="Blog Posts"
           to={POSTS}
-          onClick={event => {
-            if (isActive(POSTS)) {
-              event.preventDefault();
-            }
-          }}
         >
           <Button className={getButtonClass(POSTS)} icon={Book} style="link" />
         </NavLink>
         <NavLink
+          exact
           activeClassName="bg-gray-100"
           className="rounded-lg p-3 transition-colors hover:bg-gray-100"
           title="List"
           to={LIST}
-          onClick={event => {
-            if (isActive(LIST)) {
-              event.preventDefault();
-            }
-          }}
         >
           <Button className={getButtonClass(LIST)} icon={List} style="link" />
         </NavLink>
         <NavLink
+          exact
           activeClassName="bg-gray-100"
           className="rounded-lg p-3 transition-colors hover:bg-gray-100"
           title="Add new blog post"
           to={CREATE_POST}
-          onClick={event => {
-            if (isActive(CREATE_POST)) {
-              event.preventDefault();
-            }
-          }}
         >
           <Button
             className={getButtonClass(CREATE_POST)}
