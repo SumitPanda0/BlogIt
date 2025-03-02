@@ -1,58 +1,61 @@
 import React from "react";
 
-import { Button, Input, Textarea } from "@bigbinary/neetoui";
-import { Formik, Form as FormikForm } from "formik";
-import * as Yup from "yup";
+import { Button } from "@bigbinary/neetoui";
+import {
+  Form as NeetoUIForm,
+  Input,
+  Textarea,
+} from "@bigbinary/neetoui/formik";
 
-const validationSchema = Yup.object({
-  title: Yup.string()
-    .required("Title is required")
-    .max(15, "Title must be less than 125 characters"),
-  description: Yup.string()
-    .required("Description is required")
-    .max(10000, "Description must be less than 10000 characters"),
-});
+import { FORM_VALIDATION_SCHEMA } from "../utils/validationSchema";
 
 const Form = ({
-  initialValues = { title: "", description: "" },
   onSubmit,
   onCancel,
+  title,
+  description,
+  setTitle,
+  setDescription,
 }) => (
-  <div className="flex flex-col gap-y-4 rounded-md border border-gray-300 p-14">
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
+  <div className="flex flex-col gap-y-4">
+    <NeetoUIForm
+      formProps={{ noValidate: true }}
+      formikProps={{
+        initialValues: { title, description },
+        validationSchema: FORM_VALIDATION_SCHEMA,
+        onSubmit,
+        validateOnChange: true,
+        validateOnBlur: true,
+      }}
     >
-      {({
-        values,
-        handleChange,
-        handleSubmit,
-        isSubmitting,
-        errors,
-        touched,
-      }) => (
-        <FormikForm className="mb-4 w-full space-y-2" onSubmit={handleSubmit}>
+      {({ values, handleChange, handleBlur }) => (
+        <>
           <Input
-            error={touched.title && errors.title}
             label="Title"
             name="title"
             placeholder="Enter title"
             value={values.title}
-            onChange={handleChange}
+            onBlur={handleBlur}
+            onChange={e => {
+              setTitle(e.target.value);
+              handleChange(e);
+            }}
           />
           <Textarea
             className="mt-4 h-auto"
-            error={touched.description && errors.description}
             label="Description"
             name="description"
             placeholder="Enter description"
             rows={20}
             size="large"
             value={values.description}
-            onChange={handleChange}
+            onBlur={handleBlur}
+            onChange={e => {
+              setDescription(e.target.value);
+              handleChange(e);
+            }}
           />
-          <div className="flex justify-end gap-x-4">
+          <div className="mt-4 flex justify-end gap-x-4">
             <Button
               className="text-black"
               label="Cancel"
@@ -62,16 +65,14 @@ const Form = ({
             />
             <Button
               className="bg-black text-white"
-              disabled={isSubmitting}
               label="Submit"
-              loading={isSubmitting}
               style="tertiary"
               type="submit"
             />
           </div>
-        </FormikForm>
+        </>
       )}
-    </Formik>
+    </NeetoUIForm>
   </div>
 );
 
