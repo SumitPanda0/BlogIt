@@ -8,6 +8,8 @@ module.exports = {
     apis: absolutePath("src/apis"),
     common: absolutePath("src/common"),
     components: absolutePath("src/components"),
+    utils: absolutePath("src/utils"),
+    constants: absolutePath("src/components/constants"),
   },
   extensions: [
     ".ts",

@@ -6,6 +6,7 @@ import {
   BrowserRouter as Router,
   Redirect,
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import List from "./components/List";
 import Posts from "./components/Posts";
@@ -15,6 +16,7 @@ import Sidebar from "./components/Sidebar";
 
 const App = () => (
   <Router>
+    <ToastContainer />
     <div className="flex h-screen">
       <Sidebar />
       <div className="ml-16 flex-1 overflow-auto p-6">
