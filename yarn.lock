@@ -956,6 +956,11 @@
   resolved "https://registry.yarnpkg.com/@bigbinary/neeto-cist/-/neeto-cist-1.0.6.tgz#cf9e34910a765e6cb946503c0bf7ab1632ef8e17"
   integrity sha512-UebvniTSUyNYOIZMiNSDpV4HqHtwvYfaUaE3+C4ZBSY44csUCRgwOeD0njU3rQpE5eAL+e6KYsV9moRz4/uc0g==
 
+"@bigbinary/neeto-editor@1.28.3":
+  version "1.28.3"
+  resolved "https://registry.yarnpkg.com/@bigbinary/neeto-editor/-/neeto-editor-1.28.3.tgz#014b9f8fedaa862c21365771ef0f7ae9195e5b06"
+  integrity sha512-nablIbuRsddAMDoBUpomJmNDif9CIAdRK+bySqrL2dhgIUb+2zMTCLUssYhrMyd2SCgKC14LaYvGoQPbr9DKbA==
+
 "@bigbinary/neeto-icons@1.17.6":
   version "1.17.6"
   resolved "https://registry.yarnpkg.com/@bigbinary/neeto-icons/-/neeto-icons-1.17.6.tgz#6e409b70a5056dd95e1b10ae2030566333826595"
