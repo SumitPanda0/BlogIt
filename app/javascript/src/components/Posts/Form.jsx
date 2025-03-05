@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import FormikEditor from "@bigbinary/neeto-editor/FormikEditor";
 import { Button } from "@bigbinary/neetoui";
 import {
   Form as NeetoUIForm,
@@ -9,6 +8,7 @@ import {
 } from "@bigbinary/neetoui/formik";
 
 import categoriesApi from "../../apis/categories";
+import { Editor } from "../../common/Editor";
 import { FORM_VALIDATION_SCHEMA } from "../utils/validationSchema";
 
 const Form = ({
@@ -110,7 +110,7 @@ const Form = ({
                 handleChange(e);
               }}
             /> */}
-            <FormikEditor required label="Description" name="description" />
+            <Editor />
             <div className="mt-4 flex justify-end gap-x-4">
               <Button
                 className="text-black"
