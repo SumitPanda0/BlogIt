@@ -9,4 +9,7 @@ export const FORM_VALIDATION_SCHEMA = Yup.object().shape({
     .required("Description is required")
     .min(10, "Description must be at least 10 characters")
     .max(1000, "Description must be less than 1000 characters"),
+  category_ids: Yup.array()
+    .min(1, "Select at least one category")
+    .required("At least one category is required"),
 });

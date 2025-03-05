@@ -12,10 +12,15 @@ const CreatePost = () => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
-  const handleSubmit = async (_, { setSubmitting }) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await postsApi.create({ title, description });
+      await postsApi.create({
+        title,
+        description,
+        category_ids: values.category_ids,
+      });
       history.push(POSTS);
     } catch (error) {
       logger.error(error);
@@ -33,7 +38,9 @@ const CreatePost = () => {
       <h1 className="mb-6 text-3xl font-bold">New blog post</h1>
       <Form
         description={description}
+        selectedCategories={selectedCategories}
         setDescription={setDescription}
+        setSelectedCategories={setSelectedCategories}
         setTitle={setTitle}
         title={title}
         onCancel={handleCancel}
