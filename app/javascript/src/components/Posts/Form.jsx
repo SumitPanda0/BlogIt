@@ -4,11 +4,11 @@ import { Button } from "@bigbinary/neetoui";
 import {
   Form as NeetoUIForm,
   Input,
+  Textarea,
   Select as FormikSelect,
 } from "@bigbinary/neetoui/formik";
 
 import categoriesApi from "../../apis/categories";
-import { Editor } from "../../common/Editor";
 import { FORM_VALIDATION_SCHEMA } from "../utils/validationSchema";
 
 const Form = ({
@@ -17,7 +17,7 @@ const Form = ({
   title,
   description,
   setTitle,
-  // setDescription,
+  setDescription,
   selectedCategories = [],
   setSelectedCategories,
 }) => {
@@ -96,7 +96,7 @@ const Form = ({
                 }}
               />
             </div>
-            {/* <Textarea
+            <Textarea
               className="mt-4 h-auto"
               label="Description*"
               name="description"
@@ -109,8 +109,7 @@ const Form = ({
                 setDescription(e.target.value);
                 handleChange(e);
               }}
-            /> */}
-            <Editor />
+            />
             <div className="mt-4 flex justify-end gap-x-4">
               <Button
                 className="text-black"
