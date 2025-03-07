@@ -18,13 +18,21 @@ class User < ApplicationRecord
     if: :password_required?
   validates :password_confirmation, presence: true, if: :password_present?
 
+  before_save :downcase_email
+
   private
 
     def password_required?
+      return false if password.nil? && !password_digest.blank?
+
       password_digest.blank? || password.present?
     end
 
     def password_present?
       password.present?
+    end
+
+    def downcase_email
+      self.email = email.downcase if email.present?
     end
 end
