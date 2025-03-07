@@ -2,14 +2,16 @@
 import React, { useEffect, useState } from "react";
 
 import { Tag } from "@bigbinary/neetoui";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 
 import categoriesApi from "../../apis/categories";
 import postsApi from "../../apis/posts";
 import { PageLoader } from "../../common/PageLoader";
+import { getFromLocalStorage } from "../../utils/storage";
 
 const Posts = () => {
   const location = useLocation();
+  const history = useHistory();
   const searchParams = new URLSearchParams(location.search);
   const categoryParam = searchParams.get("category_ids");
   const selectedCategoryIds = categoryParam
@@ -20,6 +22,7 @@ const Posts = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
+  const isLoggedIn = !!getFromLocalStorage("authToken");
 
   const fetchPosts = async categoryIds => {
     try {
@@ -50,9 +53,19 @@ const Posts = () => {
   };
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      history.push("/login");
+
+      return;
+    }
+
     fetchPosts(selectedCategoryIds);
     fetchCategories();
-  }, [location.search]);
+  }, [location.search, isLoggedIn]);
+
+  if (!isLoggedIn) {
+    return null;
+  }
 
   if (loading) return <PageLoader />;
 
@@ -100,7 +113,7 @@ const Posts = () => {
           <div className="mt-8 text-center text-gray-500">
             {selectedCategoryIds.length > 0
               ? `No posts found in the selected categories.`
-              : "No posts found."}
+              : "No posts found in your organization."}
           </div>
         ) : (
           <div className="divide-y">
