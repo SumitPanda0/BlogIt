@@ -49,11 +49,11 @@ const Show = () => {
   if (loading) return <PageLoader />;
 
   return (
-    <div className="flex flex-col gap-y-8">
+    <div className="flex w-full flex-col gap-y-8">
       <div className="mt-8 flex w-full items-start justify-between gap-x-6">
-        <div className="flex flex-col gap-y-2 p-8">
+        <div className="flex w-full flex-col gap-y-2 p-8">
           {post.categories && post.categories.length > 0 && (
-            <div className="flex items-center gap-2">
+            <div className="flex w-full items-center gap-2">
               <div className="flex flex-wrap gap-1">
                 {post.categories.map(category => (
                   <Tag
@@ -67,8 +67,19 @@ const Show = () => {
               </div>
             </div>
           )}
-          <div className="flex items-center justify-between">
-            <h2 className="text-3xl font-semibold">{post.title}</h2>
+          <div className="flex w-full items-center justify-between">
+            <div className="mb-4 flex items-center gap-2">
+              <h1 className="text-3xl font-bold">{post.title}</h1>
+              <span
+                className={`rounded-full px-2 py-1 text-xs ${
+                  post.status === "published"
+                    ? "bg-green-100 text-green-800"
+                    : "bg-yellow-100 text-yellow-800"
+                }`}
+              >
+                {post.status === "published" ? "Published" : "Draft"}
+              </span>
+            </div>
             <Button icon={Edit} style="text" onClick={handleEdit} />
           </div>
           <div className="mb-4 flex items-center gap-x-3">

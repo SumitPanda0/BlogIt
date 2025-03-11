@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Button } from "@bigbinary/neetoui";
+import { Button, Dropdown } from "@bigbinary/neetoui";
 import {
   Form as NeetoUIForm,
   Input,
@@ -20,6 +20,9 @@ const Form = ({
   setDescription,
   selectedCategories = [],
   setSelectedCategories,
+  status = "draft",
+  setStatus,
+  isEdit = false,
 }) => {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -43,8 +46,45 @@ const Form = ({
     fetchCategories();
   }, []);
 
+  const handlePublish = () => {
+    setStatus("published");
+  };
+
+  const handleSaveAsDraft = () => {
+    setStatus("draft");
+  };
+
   return (
     <div className="flex flex-col gap-y-4">
+      <div className="mb-4 flex items-center justify-between">
+        <h1 className="text-3xl font-bold">
+          {isEdit ? "Edit blog post" : "New blog post"}
+        </h1>
+        <div className="flex items-center gap-x-2">
+          <Dropdown
+            buttonProps={{
+              className: "bg-black text-white",
+              label: status === "published" ? "Publish" : "Save as draft",
+              style: "primary",
+            }}
+          >
+            <li>
+              <Button
+                label="Save as draft"
+                style="tertiary"
+                onClick={handleSaveAsDraft}
+              />
+            </li>
+            <li>
+              <Button
+                label="Publish"
+                style="tertiary"
+                onClick={handlePublish}
+              />
+            </li>
+          </Dropdown>
+        </div>
+      </div>
       <NeetoUIForm
         formProps={{ noValidate: true }}
         formikProps={{
@@ -52,6 +92,7 @@ const Form = ({
             title,
             description,
             category_ids: selectedCategories.map(category => category.value),
+            status,
           },
           validationSchema: FORM_VALIDATION_SCHEMA,
           onSubmit,

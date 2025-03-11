@@ -9,6 +9,7 @@ FactoryBot.define do
     is_bloggable { [true, false].sample }
     association :user
     association :organization
+    status { :draft }
 
     after(:build) do |post|
       post.categories << build(:category) if post.categories.empty?

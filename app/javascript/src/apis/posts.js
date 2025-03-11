@@ -10,13 +10,14 @@ const fetch = (categoryIds = []) => {
 };
 
 const create = payload => {
-  const { title, description, category_ids } = payload;
+  const { title, description, category_ids, status } = payload;
 
   return axios.post(CREATE_URL, {
     post: {
       title,
       description,
       category_ids,
+      status,
     },
   });
 };
@@ -24,13 +25,14 @@ const create = payload => {
 const show = slug => axios.get(SHOW_URL.replace(":slug", slug));
 
 const update = (slug, payload) => {
-  const { title, description, category_ids } = payload;
+  const { title, description, category_ids, status } = payload;
 
   return axios.put(UPDATE_URL.replace(":slug", slug), {
     post: {
       title,
       description,
       category_ids,
+      status,
     },
   });
 };

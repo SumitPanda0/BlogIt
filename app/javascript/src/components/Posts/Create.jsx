@@ -13,6 +13,7 @@ const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [status, setStatus] = useState("draft");
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
@@ -20,6 +21,7 @@ const CreatePost = () => {
         title,
         description,
         category_ids: values.category_ids,
+        status,
       });
       history.push(POSTS);
     } catch (error) {
@@ -35,13 +37,15 @@ const CreatePost = () => {
 
   return (
     <div className="container mx-auto">
-      <h1 className="mb-6 text-3xl font-bold">New blog post</h1>
+      {/* <h1 className="mb-6 text-3xl font-bold">New blog post</h1> */}
       <Form
         description={description}
         selectedCategories={selectedCategories}
         setDescription={setDescription}
         setSelectedCategories={setSelectedCategories}
+        setStatus={setStatus}
         setTitle={setTitle}
+        status={status}
         title={title}
         onCancel={handleCancel}
         onSubmit={handleSubmit}

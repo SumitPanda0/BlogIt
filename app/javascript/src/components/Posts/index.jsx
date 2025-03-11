@@ -150,6 +150,14 @@ const Posts = () => {
                     ? formatDate(post.created_at)
                     : "30 September 2024"}
                 </div>
+                <div className="post-meta">
+                  {post.status === "draft" && (
+                    <span className="status-badge draft">Draft</span>
+                  )}
+                  {post.status === "published" && (
+                    <span className="status-badge published">Published</span>
+                  )}
+                </div>
               </div>
             ))}
           </div>

@@ -16,6 +16,7 @@ const EditPost = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [status, setStatus] = useState("draft");
 
   const fetchPostDetails = async () => {
     try {
@@ -25,6 +26,7 @@ const EditPost = () => {
       } = await postsApi.show(slug);
       setTitle(post.title);
       setDescription(post.description);
+      setStatus(post.status || "draft");
 
       if (post.categories && post.categories.length > 0) {
         const formattedCategories = post.categories.map(category => ({
@@ -51,6 +53,7 @@ const EditPost = () => {
         title,
         description,
         category_ids: values.category_ids,
+        status,
       });
       history.push(`/posts/${slug}/show`);
     } catch (error) {
@@ -68,13 +71,16 @@ const EditPost = () => {
 
   return (
     <div className="container mx-auto">
-      <h1 className="mb-6 text-3xl font-bold">Edit blog post</h1>
+      {/* <h1 className="mb-6 text-3xl font-bold">Edit blog post</h1> */}
       <Form
+        isEdit
         description={description}
         selectedCategories={selectedCategories}
         setDescription={setDescription}
         setSelectedCategories={setSelectedCategories}
+        setStatus={setStatus}
         setTitle={setTitle}
+        status={status}
         title={title}
         onCancel={handleCancel}
         onSubmit={handleSubmit}
