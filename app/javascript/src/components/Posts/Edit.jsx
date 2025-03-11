@@ -80,6 +80,7 @@ const EditPost = () => {
         setSelectedCategories={setSelectedCategories}
         setStatus={setStatus}
         setTitle={setTitle}
+        slug={slug}
         status={status}
         title={title}
         onCancel={handleCancel}

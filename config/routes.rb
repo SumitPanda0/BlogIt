@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       constraints(lambda { |req| req.format == :json }) do
         resources :categories, only: [:index, :create]
-        resources :posts, only: [:index, :create, :show, :update], param: :slug
+        resources :posts, only: [:index, :create, :show, :update, :destroy], param: :slug
         resources :users, only: %i[index create]
         resources :organizations, only: [:index]
         resource :session, only: %i[create destroy]

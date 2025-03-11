@@ -37,6 +37,11 @@ const update = (slug, payload) => {
   });
 };
 
-const postsApi = { create, fetch, show, update };
+const destroy = (slug, quiet) =>
+  axios.delete(UPDATE_URL.replace(":slug", slug), {
+    params: { quiet },
+  });
+
+const postsApi = { create, destroy, fetch, show, update };
 
 export default postsApi;

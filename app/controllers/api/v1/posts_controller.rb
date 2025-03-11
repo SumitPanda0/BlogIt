@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::PostsController < ApplicationController
-  before_action :load_post!, only: [:show, :update]
+  before_action :load_post!, only: [:show, :update, :destroy]
   after_action :verify_authorized, except: :index
   after_action :verify_policy_scoped, only: :index
 
@@ -39,6 +39,12 @@ class Api::V1::PostsController < ApplicationController
     authorize @post
     @post.update!(post_params)
     render_notice("Post was successfully updated") unless params.key?(:quiet)
+  end
+
+  def destroy
+    authorize @post
+    @post.destroy!
+    render_notice("Post was successfully deleted") unless params.key?(:quiet)
   end
 
   private

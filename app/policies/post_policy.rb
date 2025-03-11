@@ -25,6 +25,10 @@ class PostPolicy
     true
   end
 
+  def destroy?
+    post.user_id == user.id
+  end
+
   # Policy Scope for index action
   class Scope
     attr_reader :user, :scope

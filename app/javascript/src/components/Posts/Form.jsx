@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import { Button, Dropdown } from "@bigbinary/neetoui";
+import { MenuHorizontal } from "@bigbinary/neeto-icons";
+import { ActionDropdown, Button, Dropdown } from "@bigbinary/neetoui";
 import {
   Form as NeetoUIForm,
   Input,
   Textarea,
   Select as FormikSelect,
 } from "@bigbinary/neetoui/formik";
+import { useHistory } from "react-router-dom";
 
 import categoriesApi from "../../apis/categories";
+import postsApi from "../../apis/posts";
 import { FORM_VALIDATION_SCHEMA } from "../utils/validationSchema";
 
 const Form = ({
@@ -23,10 +26,12 @@ const Form = ({
   status = "draft",
   setStatus,
   isEdit = false,
+  slug,
 }) => {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const history = useHistory();
+  const { Menu } = ActionDropdown;
   const fetchCategories = async () => {
     try {
       const { data } = await categoriesApi.fetch();
@@ -39,6 +44,15 @@ const Form = ({
       logger.error(error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await postsApi.destroy(slug, true);
+      history.push("/posts");
+    } catch (error) {
+      logger.error(error);
     }
   };
 
@@ -56,35 +70,6 @@ const Form = ({
 
   return (
     <div className="flex flex-col gap-y-4">
-      <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-3xl font-bold">
-          {isEdit ? "Edit blog post" : "New blog post"}
-        </h1>
-        <div className="flex items-center gap-x-2">
-          <Dropdown
-            buttonProps={{
-              className: "bg-black text-white",
-              label: status === "published" ? "Publish" : "Save as draft",
-              style: "primary",
-            }}
-          >
-            <li>
-              <Button
-                label="Save as draft"
-                style="tertiary"
-                onClick={handleSaveAsDraft}
-              />
-            </li>
-            <li>
-              <Button
-                label="Publish"
-                style="tertiary"
-                onClick={handlePublish}
-              />
-            </li>
-          </Dropdown>
-        </div>
-      </div>
       <NeetoUIForm
         formProps={{ noValidate: true }}
         formikProps={{
@@ -100,8 +85,54 @@ const Form = ({
           validateOnBlur: true,
         }}
       >
-        {({ values, handleChange, handleBlur, setFieldValue }) => (
+        {({ values, handleChange, handleBlur, setFieldValue, submitForm }) => (
           <>
+            <div className="mb-4 flex items-center justify-between">
+              <h1 className="text-3xl font-bold">
+                {isEdit ? "Edit blog post" : "New blog post"}
+              </h1>
+              <div className="flex items-center gap-x-2">
+                <Button
+                  className="bg-black text-white"
+                  label="Cancel"
+                  style="secondary"
+                  type="submit"
+                  onClick={onCancel}
+                />
+                <ActionDropdown
+                  buttonStyle="secondary"
+                  label={status === "published" ? "Publish" : "Save as draft"}
+                  onClick={submitForm}
+                >
+                  <Menu>
+                    <li>
+                      <Button
+                        label="Save as draft"
+                        style="tertiary"
+                        type="submit"
+                        onClick={handleSaveAsDraft}
+                      />
+                    </li>
+                    <li>
+                      <Button
+                        label="Publish"
+                        style="tertiary"
+                        type="submit"
+                        onClick={handlePublish}
+                      />
+                    </li>
+                  </Menu>
+                </ActionDropdown>
+                <Dropdown buttonStyle="tertiary" icon={MenuHorizontal}>
+                  <Button
+                    className="border-none bg-white text-red-500"
+                    label="Delete"
+                    style="danger"
+                    onClick={handleDelete}
+                  />
+                </Dropdown>
+              </div>
+            </div>
             <Input
               label="Title*"
               name="title"
@@ -151,7 +182,7 @@ const Form = ({
                 handleChange(e);
               }}
             />
-            <div className="mt-4 flex justify-end gap-x-4">
+            {/* <div className="mt-4 flex justify-end gap-x-4">
               <Button
                 className="text-black"
                 label="Cancel"
@@ -165,7 +196,7 @@ const Form = ({
                 style="tertiary"
                 type="submit"
               />
-            </div>
+            </div> */}
           </>
         )}
       </NeetoUIForm>

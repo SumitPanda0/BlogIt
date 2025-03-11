@@ -70,15 +70,11 @@ const Show = () => {
           <div className="flex w-full items-center justify-between">
             <div className="mb-4 flex items-center gap-2">
               <h1 className="text-3xl font-bold">{post.title}</h1>
-              <span
-                className={`rounded-full px-2 py-1 text-xs ${
-                  post.status === "published"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-yellow-100 text-yellow-800"
-                }`}
-              >
-                {post.status === "published" ? "Published" : "Draft"}
-              </span>
+              <Tag
+                label={post.status === "published" ? "Published" : "Draft"}
+                size="small"
+                style={post.status === "published" ? "success" : "warning"}
+              />
             </div>
             <Button icon={Edit} style="text" onClick={handleEdit} />
           </div>
