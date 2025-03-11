@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 json.post do
-  json.extract! @post, :id, :title, :description, :slug, :status
+  json.extract! @post, :id, :title, :description, :slug, :status, :created_at, :updated_at
 
   json.user do
     json.extract! @post.user, :id, :name

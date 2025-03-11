@@ -30,7 +30,7 @@ const Posts = () => {
       const {
         data: { posts },
       } = await postsApi.fetch(categoryIds);
-      logger.log(posts);
+
       const sortedPosts = [...posts].sort(
         (a, b) => new Date(b.created_at) - new Date(a.created_at)
       );
@@ -83,6 +83,16 @@ const Posts = () => {
     return `${date.getDate()} ${date.toLocaleString("default", {
       month: "long",
     })} ${date.getFullYear()}`;
+  };
+
+  const getDisplayDate = post => {
+    if (post.status === "published") {
+      return post.updated_at
+        ? formatDate(post.updated_at)
+        : formatDate(post.created_at);
+    }
+
+    return post.created_at ? formatDate(post.created_at) : "Date unavailable";
   };
 
   const getSelectedCategoryNames = () => {
@@ -146,9 +156,7 @@ const Posts = () => {
                   )}
                 </div>
                 <div className="text-xs text-gray-500">
-                  {post.created_at
-                    ? formatDate(post.created_at)
-                    : "30 September 2024"}
+                  {getDisplayDate(post)}
                 </div>
                 <div className="post-meta">
                   {post.status === "draft" && (
