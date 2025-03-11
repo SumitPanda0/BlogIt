@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 
-import { Avatar, Tag } from "@bigbinary/neetoui";
+import { Edit } from "@bigbinary/neeto-icons";
+import { Avatar, Tag, Button } from "@bigbinary/neetoui";
 import { useHistory, useParams } from "react-router-dom";
 
 import postsApi from "apis/posts";
@@ -37,6 +38,10 @@ const Show = () => {
     }
   };
 
+  const handleEdit = () => {
+    history.push(`/posts/${slug}/edit`);
+  };
+
   useEffect(() => {
     fetchPostDetails();
   }, []);
@@ -62,7 +67,10 @@ const Show = () => {
               </div>
             </div>
           )}
-          <h2 className="text-3xl font-semibold">{post.title}</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-3xl font-semibold">{post.title}</h2>
+            <Button icon={Edit} style="text" onClick={handleEdit} />
+          </div>
           <div className="mb-4 flex items-center gap-x-3">
             <Avatar size="medium" user={{ name: "User" }} />
             <div className="flex flex-col gap-y-1">

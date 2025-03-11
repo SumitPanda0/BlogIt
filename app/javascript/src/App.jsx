@@ -14,6 +14,7 @@ import { Login, Signup } from "./components/Authentication";
 import List from "./components/List";
 import Posts from "./components/Posts";
 import CreatePost from "./components/Posts/Create";
+import EditPost from "./components/Posts/Edit";
 import ShowPost from "./components/Posts/Show";
 import Sidebar from "./components/Sidebar";
 import { getFromLocalStorage } from "./utils/storage";
@@ -31,6 +32,7 @@ const App = () => {
           <Switch>
             <Route exact component={CreatePost} path="/posts/create" />
             <Route exact component={ShowPost} path="/posts/:slug/show" />
+            <Route exact component={EditPost} path="/posts/:slug/edit" />
             <Route exact component={Signup} path="/signup" />
             <Route exact component={Login} path="/login" />
             <PrivateRoute

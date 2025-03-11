@@ -11,7 +11,7 @@ const Signup = ({
   loading,
   setPasswordConfirmation,
   organizations,
-  organizationId,
+  // organizationId,
   setOrganizationId,
 }) => (
   <div
@@ -58,14 +58,16 @@ const Signup = ({
           onChange={e => setPasswordConfirmation(e.target.value)}
         />
         <Select
+          isSearchable
           label="Organization"
           placeholder="Select an organization"
-          value={organizationId}
           options={organizations.map(org => ({
             label: org.name,
             value: org.id,
           }))}
-          onChange={e => setOrganizationId(e.target.value)}
+          onChange={selectedOption => {
+            setOrganizationId(selectedOption.value);
+          }}
         />
         <Button
           className="justify-center"

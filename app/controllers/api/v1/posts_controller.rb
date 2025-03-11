@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::PostsController < ApplicationController
+  before_action :load_post!, only: [:show, :update]
   def index
     @posts = Post.includes(:categories, :user)
       .where(organization_id: current_user.organization_id)
@@ -26,13 +27,18 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def show
-    @post = Post.includes(:user, :categories).find_by!(slug: params[:slug])
-    if @post.organization_id != current_user.organization_id
-      render_error("You don't have access to this post", :forbidden)
-    end
+  end
+
+  def update
+    @post.update!(post_params)
+    render_notice("Post was successfully updated")
   end
 
   private
+
+    def load_post!
+      @post = Post.find_by!(slug: params[:slug])
+    end
 
     def post_params
       params.require(:post).permit(:title, :description, category_ids: [])

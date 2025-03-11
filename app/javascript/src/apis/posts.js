@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { POSTS_URL, CREATE_URL, SHOW_URL } from "../constants";
+import { POSTS_URL, CREATE_URL, SHOW_URL, UPDATE_URL } from "../constants";
 
 const fetch = (categoryIds = []) => {
   const params =
@@ -23,6 +23,18 @@ const create = payload => {
 
 const show = slug => axios.get(SHOW_URL.replace(":slug", slug));
 
-const postsApi = { create, fetch, show };
+const update = (slug, payload) => {
+  const { title, description, category_ids } = payload;
+
+  return axios.put(UPDATE_URL.replace(":slug", slug), {
+    post: {
+      title,
+      description,
+      category_ids,
+    },
+  });
+};
+
+const postsApi = { create, fetch, show, update };
 
 export default postsApi;
