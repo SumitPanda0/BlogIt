@@ -52,10 +52,12 @@ const EditPost = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       await postsApi.update(slug, {
-        title,
-        description,
-        category_ids: values.category_ids,
-        status,
+        post: {
+          title,
+          description,
+          category_ids: values.category_ids,
+          status,
+        },
       });
       history.push(`/posts/${slug}/show`);
     } catch (error) {

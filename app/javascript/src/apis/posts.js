@@ -24,18 +24,8 @@ const create = payload => {
 
 const show = slug => axios.get(SHOW_URL.replace(":slug", slug));
 
-const update = payload => {
-  const { slug, title, description, category_ids, status } = payload;
-
-  return axios.put(UPDATE_URL.replace(":slug", slug), {
-    post: {
-      title,
-      description,
-      category_ids,
-      status,
-    },
-  });
-};
+const update = (slug, payload) =>
+  axios.put(UPDATE_URL.replace(":slug", slug), payload);
 
 const destroy = (slug, quiet) =>
   axios.delete(UPDATE_URL.replace(":slug", slug), {
