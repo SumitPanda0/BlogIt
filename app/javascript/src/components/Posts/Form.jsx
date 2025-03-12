@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { MenuHorizontal } from "@bigbinary/neeto-icons";
+import { MenuHorizontal, ExternalLink } from "@bigbinary/neeto-icons";
 import { ActionDropdown, Button, Dropdown } from "@bigbinary/neetoui";
 import {
   Form as NeetoUIForm,
@@ -27,6 +27,8 @@ const Form = ({
   setStatus,
   isEdit = false,
   slug,
+  showPreview,
+  setShowPreview,
 }) => {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -92,6 +94,15 @@ const Form = ({
                 {isEdit ? "Edit blog post" : "New blog post"}
               </h1>
               <div className="flex items-center gap-x-2">
+                {!showPreview && (
+                  <Button
+                    className="text-gray-800 hover:text-gray-500"
+                    icon={ExternalLink}
+                    label="Preview"
+                    style="tertiary"
+                    onClick={() => setShowPreview(true)}
+                  />
+                )}
                 <Button
                   className="bg-black text-white"
                   label="Cancel"

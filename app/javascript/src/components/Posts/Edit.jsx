@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 import Form from "./Form";
+import PostPreview from "./Preview";
 
 import postsApi from "../../apis/posts";
 import { PageLoader } from "../../common/PageLoader";
@@ -17,6 +18,7 @@ const EditPost = () => {
   const [description, setDescription] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [status, setStatus] = useState("draft");
+  const [showPreview, setShowPreview] = useState(false);
 
   const fetchPostDetails = async () => {
     try {
@@ -71,21 +73,39 @@ const EditPost = () => {
 
   return (
     <div className="container mx-auto">
-      {/* <h1 className="mb-6 text-3xl font-bold">Edit blog post</h1> */}
-      <Form
-        isEdit
-        description={description}
-        selectedCategories={selectedCategories}
-        setDescription={setDescription}
-        setSelectedCategories={setSelectedCategories}
-        setStatus={setStatus}
-        setTitle={setTitle}
-        slug={slug}
-        status={status}
-        title={title}
-        onCancel={handleCancel}
-        onSubmit={handleSubmit}
-      />
+      <div
+        className={`grid ${showPreview ? "grid-cols-2 gap-4" : "grid-cols-1"}`}
+      >
+        <div>
+          <Form
+            isEdit
+            description={description}
+            selectedCategories={selectedCategories}
+            setDescription={setDescription}
+            setSelectedCategories={setSelectedCategories}
+            setShowPreview={setShowPreview}
+            setStatus={setStatus}
+            setTitle={setTitle}
+            showPreview={showPreview}
+            slug={slug}
+            status={status}
+            title={title}
+            onCancel={handleCancel}
+            onSubmit={handleSubmit}
+          />
+        </div>
+        {showPreview && (
+          <div className="border-l pl-4">
+            <PostPreview
+              categories={selectedCategories}
+              description={description}
+              setShowPreview={setShowPreview}
+              status={status}
+              title={title}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

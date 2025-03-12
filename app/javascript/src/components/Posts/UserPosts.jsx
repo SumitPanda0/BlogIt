@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { MenuHorizontal } from "@bigbinary/neeto-icons";
-import { Button, Dropdown, Table } from "@bigbinary/neetoui";
+import { Button, Dropdown, Table, Tooltip } from "@bigbinary/neetoui";
 import { Link, useHistory } from "react-router-dom";
 
 import postsApi from "../../apis/posts";
@@ -96,7 +96,11 @@ const UserPosts = () => {
 
     return `${date.getDate()} ${date.toLocaleString("default", {
       month: "long",
-    })} ${date.getFullYear()}`;
+    })} ${date.getFullYear()}, ${date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    })}`;
   };
 
   const getDisplayDate = post => {
@@ -115,14 +119,18 @@ const UserPosts = () => {
       key: "title",
       title: "Title",
       width: 200,
-      ellipsis: {
-        showTitle: false,
-      },
+      fixed: true,
       render: (title, record) => (
         <Link to={`/posts/${record.slug}/edit`}>
-          <div className="truncate" title={title}>
-            {title}
-          </div>
+          {title.length > 25 ? (
+            <Tooltip content={title} position="top">
+              <div className="text-green-600">
+                {title.length > 25 ? `${title.slice(0, 25)}...` : title}
+              </div>
+            </Tooltip>
+          ) : (
+            <div className="text-green-600">{title}</div>
+          )}
         </Link>
       ),
     },
@@ -131,6 +139,7 @@ const UserPosts = () => {
       key: "categories",
       title: "Category",
       width: 150,
+      fixed: true,
       render: categories => categories,
     },
     {
@@ -138,6 +147,7 @@ const UserPosts = () => {
       key: "updated_at",
       title: "Last Published At",
       width: 150,
+      fixed: true,
       render: (_, post) => getDisplayDate(post),
     },
     {
@@ -145,6 +155,7 @@ const UserPosts = () => {
       key: "status",
       title: "Status",
       width: 150,
+      fixed: true,
       render: status => (
         <div className="flex items-center justify-between">
           <span className="capitalize">{status}</span>
@@ -156,8 +167,10 @@ const UserPosts = () => {
       key: "action",
       title: "Action",
       width: 150,
+      fixed: true,
       render: (_, post) => (
         <Dropdown
+          appendTo={() => document.body}
           buttonStyle="tertiary"
           icon={MenuHorizontal}
           position="bottom-end"
@@ -228,6 +241,7 @@ const UserPosts = () => {
         {posts.length === 1 ? "1 article" : `${posts.length} articles`}
       </h3>
       <Table
+        enableColumnResize
         rowSelection
         className="w-full"
         columnData={columnData}

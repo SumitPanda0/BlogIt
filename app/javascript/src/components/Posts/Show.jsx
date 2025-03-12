@@ -20,7 +20,11 @@ const Show = () => {
 
     return `${date.getDate()} ${date.toLocaleString("default", {
       month: "long",
-    })} ${date.getFullYear()}`;
+    })} ${date.getFullYear()}, ${date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    })}`;
   };
 
   const getDisplayDate = post => {
