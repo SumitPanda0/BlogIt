@@ -2,8 +2,8 @@
 
 class Api::V1::PostsController < ApplicationController
   before_action :load_post!, only: [:show, :update, :destroy]
-  after_action :verify_authorized, except: :index
-  after_action :verify_policy_scoped, only: :index
+  after_action :verify_authorized, except: [:index, :user_posts]
+  after_action :verify_policy_scoped, only: [:index, :user_posts]
 
   def index
     @posts = policy_scope(Post).includes(:categories, :user)
@@ -45,6 +45,15 @@ class Api::V1::PostsController < ApplicationController
     authorize @post
     @post.destroy!
     render_notice("Post was successfully deleted") unless params.key?(:quiet)
+  end
+
+  def user_posts
+    @posts = policy_scope(Post).includes(:categories, :user)
+      .where(organization_id: current_user.organization_id)
+      .where(user_id: current_user.id)
+      .order(created_at: :desc)
+
+    render :index
   end
 
   private

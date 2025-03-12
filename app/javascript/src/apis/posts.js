@@ -24,8 +24,8 @@ const create = payload => {
 
 const show = slug => axios.get(SHOW_URL.replace(":slug", slug));
 
-const update = (slug, payload) => {
-  const { title, description, category_ids, status } = payload;
+const update = payload => {
+  const { slug, title, description, category_ids, status } = payload;
 
   return axios.put(UPDATE_URL.replace(":slug", slug), {
     post: {
@@ -42,6 +42,8 @@ const destroy = (slug, quiet) =>
     params: { quiet },
   });
 
-const postsApi = { create, destroy, fetch, show, update };
+const fetchUserPosts = () => axios.get(`${POSTS_URL}/user_posts`);
+
+const postsApi = { create, destroy, fetch, show, update, fetchUserPosts };
 
 export default postsApi;

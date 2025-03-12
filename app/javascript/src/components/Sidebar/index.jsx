@@ -7,6 +7,7 @@ import {
   ListDetails,
   Close,
   Home,
+  Folder,
 } from "@bigbinary/neeto-icons";
 import { Avatar, Button, Dropdown, Typography } from "@bigbinary/neetoui";
 import { useLocation, useHistory } from "react-router-dom";
@@ -108,6 +109,12 @@ const Sidebar = () => {
               style="link"
             />
           </div>
+          <SidebarNavLinkItem
+            currentPath={location.pathname}
+            icon={Folder}
+            path="/my-posts"
+            title="My Blog Posts"
+          />
         </div>
         <div className="mb-4 mt-auto items-center">
           <Dropdown

@@ -9,6 +9,8 @@ import {
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
+import UserPosts from "components/Posts/UserPosts";
+
 import PrivateRoute from "./common/PrivateRoute";
 import { Login, Signup } from "./components/Authentication";
 import List from "./components/List";
@@ -48,6 +50,12 @@ const App = () => {
             <Route exact path="/">
               <Redirect to="/posts" />
             </Route>
+            <PrivateRoute
+              component={UserPosts}
+              condition={isLoggedIn}
+              path="/my-posts"
+              redirectRoute="/login"
+            />
           </Switch>
         </div>
       </div>

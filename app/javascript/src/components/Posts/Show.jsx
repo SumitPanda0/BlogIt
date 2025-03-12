@@ -83,7 +83,7 @@ const Show = () => {
               <Tag
                 label={post.status === "published" ? "Published" : "Draft"}
                 size="small"
-                style={post.status === "published" ? "success" : "warning"}
+                style={post.status === "published" ? "success" : "danger"}
               />
             </div>
             <Button icon={Edit} style="text" onClick={handleEdit} />
