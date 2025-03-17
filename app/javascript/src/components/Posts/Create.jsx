@@ -37,8 +37,8 @@ const CreatePost = () => {
 
   return (
     <div className="container mx-auto">
-      {/* <h1 className="mb-6 text-3xl font-bold">New blog post</h1> */}
       <Form
+        showPreview
         description={description}
         selectedCategories={selectedCategories}
         setDescription={setDescription}

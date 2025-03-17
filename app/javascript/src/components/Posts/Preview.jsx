@@ -1,13 +1,15 @@
 import React from "react";
 
+import { ExternalLink } from "@bigbinary/neeto-icons";
 import { Tag, Avatar, Button } from "@bigbinary/neetoui";
 
-const PostPreview = ({
+const Preview = ({
   title,
   description,
   categories,
   status,
   setShowPreview,
+  slug,
 }) => {
   const formatDate = () => {
     const date = new Date();
@@ -21,9 +23,30 @@ const PostPreview = ({
     })}`;
   };
 
+  const handleOpenInNewPage = () => {
+    const previewData = {
+      title,
+      description,
+      categories,
+      status,
+      timestamp: new Date().getTime(),
+    };
+
+    localStorage.setItem("postPreviewData", JSON.stringify(previewData));
+
+    window.open(`/posts/preview/${slug}`, "_blank");
+  };
+
   return (
     <div className="flex w-full flex-col">
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-x-2">
+        <Button
+          className="text-gray-800 hover:text-gray-500"
+          icon={ExternalLink}
+          label="Open in New Page"
+          style="tertiary"
+          onClick={handleOpenInNewPage}
+        />
         <Button
           className="text-gray-800 hover:text-gray-500"
           label="Hide Preview"
@@ -76,4 +99,4 @@ const PostPreview = ({
   );
 };
 
-export default PostPreview;
+export default Preview;

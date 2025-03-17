@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 import Form from "./Form";
-import PostPreview from "./Preview";
+import Preview from "./Preview";
 
 import postsApi from "../../apis/posts";
 import { PageLoader } from "../../common/PageLoader";
@@ -98,10 +98,11 @@ const EditPost = () => {
         </div>
         {showPreview && (
           <div className="border-l pl-4">
-            <PostPreview
+            <Preview
               categories={selectedCategories}
               description={description}
               setShowPreview={setShowPreview}
+              slug={slug}
               status={status}
               title={title}
             />
