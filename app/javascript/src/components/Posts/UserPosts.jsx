@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 import { MenuHorizontal } from "@bigbinary/neeto-icons";
-import { Button, Dropdown, Table, Tooltip } from "@bigbinary/neetoui";
+import { Button, Dropdown, Table } from "@bigbinary/neetoui";
 import { Link, useHistory } from "react-router-dom";
 
 import postsApi from "../../apis/posts";
 import { PageLoader } from "../../common/PageLoader";
 import { getFromLocalStorage } from "../../utils/storage";
+import TruncatedText from "../utils/TruncatedText";
 
 const UserPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -122,18 +123,14 @@ const UserPosts = () => {
       fixed: true,
       render: (title, record) => (
         <Link to={`/posts/${record.slug}/edit`}>
-          {title.length > 25 ? (
-            <Tooltip content={title} position="top">
-              <div className="text-green-600">
-                {title.length > 25 ? `${title.slice(0, 25)}...` : title}
-              </div>
-            </Tooltip>
-          ) : (
-            <div className="text-green-600">{title}</div>
-          )}
+          <TruncatedText
+            className="w-[120px] truncate text-green-600 sm:w-[120px] md:w-[150px] lg:w-[180px]"
+            text={title}
+          />
         </Link>
       ),
     },
+
     {
       dataIndex: "categories",
       key: "categories",
