@@ -193,21 +193,6 @@ const Form = ({
                 handleChange(e);
               }}
             />
-            {/* <div className="mt-4 flex justify-end gap-x-4">
-              <Button
-                className="text-black"
-                label="Cancel"
-                style="tertiary"
-                type="button"
-                onClick={onCancel}
-              />
-              <Button
-                className="bg-black text-white"
-                label="Submit"
-                style="tertiary"
-                type="submit"
-              />
-            </div> */}
           </>
         )}
       </NeetoUIForm>
