@@ -32,7 +32,16 @@ const destroy = (slug, quiet) =>
     params: { quiet },
   });
 
-const fetchUserPosts = () => axios.get(`${POSTS_URL}/user_posts`);
+const fetchUserPosts = (filters = {}) =>
+  axios.get(`${POSTS_URL}/user_posts`, {
+    params: {
+      filter: {
+        title: filters.title || "",
+        category: filters.category || "",
+        status: filters.status || "",
+      },
+    },
+  });
 
 const postsApi = { create, destroy, fetch, show, update, fetchUserPosts };
 

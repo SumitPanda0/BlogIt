@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
 
-import { MenuHorizontal } from "@bigbinary/neeto-icons";
-import { Button, Dropdown, Table } from "@bigbinary/neetoui";
+import { Filter, MenuHorizontal } from "@bigbinary/neeto-icons";
+import {
+  ActionDropdown,
+  Button,
+  Dropdown,
+  Table,
+  Checkbox,
+} from "@bigbinary/neetoui";
 import { Link, useHistory } from "react-router-dom";
 
+import FilterPane from "./FilterPane";
+
 import postsApi from "../../apis/posts";
+import FilterTags from "../../common/FilterTags";
 import { PageLoader } from "../../common/PageLoader";
 import { getFromLocalStorage } from "../../utils/storage";
 import TruncatedText from "../utils/TruncatedText";
@@ -16,6 +25,21 @@ const UserPosts = () => {
   const history = useHistory();
   const isLoggedIn = !!getFromLocalStorage("authToken");
   const [selectedPosts, setSelectedPosts] = useState([]);
+  const [isPaneOpen, setIsPaneOpen] = useState(false);
+  const [visibleColumns, setVisibleColumns] = useState({
+    title: true,
+    categories: true,
+    updated_at: true,
+    status: true,
+    action: true,
+  });
+
+  const [filters, setFilters] = useState({
+    title: "",
+    category: "",
+    status: "",
+  });
+  const [appliedFilters, setAppliedFilters] = useState({});
 
   const { Menu, MenuItem, Divider } = Dropdown;
   const fetchUserPosts = async () => {
@@ -23,7 +47,7 @@ const UserPosts = () => {
       setLoading(true);
       const {
         data: { posts },
-      } = await postsApi.fetchUserPosts();
+      } = await postsApi.fetchUserPosts(appliedFilters);
 
       setPosts(posts);
     } catch (err) {
@@ -68,6 +92,48 @@ const UserPosts = () => {
     }
   };
 
+  const handleFilterChange = (key, value) => {
+    setFilters(prev => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const handleApplyFilters = () => {
+    const nonEmptyFilters = Object.entries(filters)
+      .filter(([_, value]) => value)
+      .reduce((acc, [key, value]) => {
+        acc[key] = value;
+
+        return acc;
+      }, {});
+
+    setAppliedFilters(nonEmptyFilters);
+    setIsPaneOpen(false);
+  };
+
+  const handleClearFilters = () => {
+    setFilters({
+      title: "",
+      category: "",
+      status: "",
+    });
+  };
+
+  const statusOptions = [
+    { label: "Published", value: "published" },
+    { label: "Draft", value: "draft" },
+  ];
+
+  const categoryOptions = [
+    ...new Set(
+      posts.flatMap(post => post.categories.map(category => category.name))
+    ),
+  ].map(category => ({
+    label: category,
+    value: category,
+  }));
+
   useEffect(() => {
     if (!isLoggedIn) {
       history.push("/login");
@@ -76,7 +142,7 @@ const UserPosts = () => {
     }
 
     fetchUserPosts();
-  }, [isLoggedIn]);
+  }, [isLoggedIn, appliedFilters]);
 
   if (!isLoggedIn) {
     return null;
@@ -114,7 +180,7 @@ const UserPosts = () => {
     return post.created_at ? formatDate(post.created_at) : "Date unavailable";
   };
 
-  const columnData = [
+  const allColumnData = [
     {
       dataIndex: "title",
       key: "title",
@@ -130,7 +196,6 @@ const UserPosts = () => {
         </Link>
       ),
     },
-
     {
       dataIndex: "categories",
       key: "categories",
@@ -219,6 +284,17 @@ const UserPosts = () => {
     },
   ];
 
+  const columnData = allColumnData.filter(column => visibleColumns[column.key]);
+
+  const handleColumnVisibilityChange = columnKey => {
+    if (columnKey === "title") return;
+
+    setVisibleColumns(prev => ({
+      ...prev,
+      [columnKey]: !prev[columnKey],
+    }));
+  };
+
   const rowData = posts.map(post => ({
     id: post.id,
     key: post.id,
@@ -231,12 +307,86 @@ const UserPosts = () => {
     created_at: formatDate(post.created_at),
   }));
 
+  const columnsForDropdown = [
+    { key: "title", title: "Title" },
+    { key: "categories", title: "Category" },
+    { key: "updated_at", title: "Last Published At" },
+    { key: "status", title: "Status" },
+  ];
+
   return (
     <>
       <h1 className="text-2xl font-bold">My Blog Posts</h1>
-      <h3 className="text-md mb-4 mt-4 text-gray-500">
-        {posts.length === 1 ? "1 article" : `${posts.length} articles`}
-      </h3>
+      <div className="flex flex-col">
+        <div className="mb-4 mt-4 flex items-center justify-between">
+          <div className="flex items-center">
+            <h3 className="text-md mr-2 text-gray-500">
+              {posts.length === 1 ? "1 article" : `${posts.length} articles`}
+            </h3>
+            <FilterTags
+              appliedFilters={appliedFilters}
+              handleClearFilters={handleClearFilters}
+              setAppliedFilters={setAppliedFilters}
+              setFilters={setFilters}
+            />
+          </div>
+          <div className="flex items-center gap-4">
+            <div>
+              <ActionDropdown
+                buttonProps={{ size: "medium" }}
+                buttonStyle="secondary"
+                label="Columns"
+              >
+                {columnsForDropdown.map(column => (
+                  <div className="px-4 py-2" key={column.key}>
+                    <Checkbox
+                      checked={visibleColumns[column.key]}
+                      disabled={column.key === "title"}
+                      id={`column-${column.key}`}
+                      label={column.title}
+                      onChange={() => handleColumnVisibilityChange(column.key)}
+                    />
+                  </div>
+                ))}
+              </ActionDropdown>
+            </div>
+            <div>
+              <Button
+                icon={Filter}
+                size="medium"
+                style="tertiary"
+                onClick={() => setIsPaneOpen(true)}
+              />
+            </div>
+          </div>
+        </div>
+        {Object.keys(appliedFilters).length > 0 && (
+          <div className="mb-4">
+            <span className="text-sm text-gray-500">
+              {posts.length === 0 && "No articles match your filters"}
+              {posts.length === 1 && (
+                <b>{`Found 1 matching article for "${appliedFilters.title}"`}</b>
+              )}
+              {posts.length > 1 && (
+                <b>{`Found ${posts.length} matching articles for "${appliedFilters.title}"`}</b>
+              )}
+            </span>
+          </div>
+        )}
+      </div>
+      {isPaneOpen && (
+        <FilterPane
+          categoryOptions={categoryOptions}
+          filters={filters}
+          handleApplyFilters={handleApplyFilters}
+          handleClearFilters={handleClearFilters}
+          handleFilterChange={handleFilterChange}
+          isPaneOpen={isPaneOpen}
+          setFilters={setFilters}
+          setIsPaneOpen={setIsPaneOpen}
+          statusOptions={statusOptions}
+        />
+      )}
       <Table
         enableColumnResize
         rowSelection

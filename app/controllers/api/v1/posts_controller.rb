@@ -53,6 +53,10 @@ class Api::V1::PostsController < ApplicationController
       .where(user_id: current_user.id)
       .order(created_at: :desc)
 
+    if filter_params.present?
+      @posts = Posts::FilterService.new(@posts, filter_params).process
+    end
+
     render :index
   end
 
@@ -64,5 +68,9 @@ class Api::V1::PostsController < ApplicationController
 
     def post_params
       params.require(:post).permit(:title, :description, :status, category_ids: [])
+    end
+
+    def filter_params
+      params.fetch(:filter, {}).permit(:title, :status, :category)
     end
 end
