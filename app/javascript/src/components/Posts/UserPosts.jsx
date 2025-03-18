@@ -405,9 +405,9 @@ const UserPosts = () => {
                 label="Change status"
               >
                 <Menu>
-                  <MenuItem className="w-full p-2 text-start">
+                  <MenuItem className=" w-full  p-3 text-center">
                     <Button
-                      className="w-full text-black"
+                      className="text-black"
                       label="Publish"
                       style="link"
                       onClick={() =>
@@ -415,9 +415,9 @@ const UserPosts = () => {
                       }
                     />
                   </MenuItem>
-                  <MenuItem className=" w-full p-2 text-start">
+                  <MenuItem className="w-full p-3 text-center">
                     <Button
-                      className="w-full text-black"
+                      className="text-black"
                       label="Draft"
                       style="link"
                       onClick={() => handleBulkUpdate(selectedPosts, "draft")}
@@ -437,7 +437,7 @@ const UserPosts = () => {
             </div>
           </div>
         )}
-        {Object.keys(appliedFilters).length > 0 && (
+        {appliedFilters?.title?.length > 0 && (
           <div className="mb-4">
             <span className="text-sm text-gray-500">
               {posts.length === 0 && "No articles match your filters"}
