@@ -17,10 +17,10 @@ const FilterPane = ({
   return (
     <Pane isOpen={isPaneOpen} onClose={() => setIsPaneOpen(false)}>
       <Header>
-        <h2>Search Filters</h2>
+        <h2>Filters</h2>
       </Header>
       <Body>
-        <div className="space-y-6">
+        <div className="w-full space-y-6">
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700">
               Title
@@ -79,8 +79,16 @@ const FilterPane = ({
       </Body>
       <Footer>
         <div className="flex justify-end space-x-2">
-          <Button label="Clear" style="text" onClick={handleClearFilters} />
-          <Button label="Apply Filters" onClick={handleApplyFilters} />
+          <Button
+            className="bg-black text-white"
+            label="Done"
+            onClick={handleApplyFilters}
+          />
+          <Button
+            label="Clear filters"
+            style="secondary"
+            onClick={handleClearFilters}
+          />
         </div>
       </Footer>
     </Pane>

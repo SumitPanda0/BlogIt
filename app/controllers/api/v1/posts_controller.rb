@@ -2,7 +2,7 @@
 
 class Api::V1::PostsController < ApplicationController
   before_action :load_post!, only: [:show, :update, :destroy]
-  after_action :verify_authorized, except: [:index, :user_posts]
+  after_action :verify_authorized, except: [:index, :user_posts, :bulk_update, :bulk_destroy]
   after_action :verify_policy_scoped, only: [:index, :user_posts]
 
   def index
@@ -58,6 +58,16 @@ class Api::V1::PostsController < ApplicationController
     end
 
     render :index
+  end
+
+  def bulk_update
+    result = Posts::BulkUpdateService.new(params[:post_ids], params[:status], current_user).process
+    render json: { success: result }, status: :ok
+  end
+
+  def bulk_destroy
+    result = Posts::BulkDestroyService.new(params[:post_ids], current_user).process
+    render json: { success: result }, status: :ok
   end
 
   private

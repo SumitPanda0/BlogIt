@@ -23,6 +23,8 @@ Rails.application.routes.draw do
         resources :posts, only: [:index, :create, :show, :update, :destroy], param: :slug do
           collection do
             get :user_posts
+            post :bulk_update
+            post :bulk_destroy
           end
         end
         resources :users, only: %i[index create]

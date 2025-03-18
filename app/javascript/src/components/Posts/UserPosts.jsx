@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Filter, MenuHorizontal } from "@bigbinary/neeto-icons";
+import { Delete, Filter, MenuHorizontal } from "@bigbinary/neeto-icons";
 import {
   ActionDropdown,
   Button,
@@ -25,6 +25,7 @@ const UserPosts = () => {
   const history = useHistory();
   const isLoggedIn = !!getFromLocalStorage("authToken");
   const [selectedPosts, setSelectedPosts] = useState([]);
+  logger.log(selectedPosts);
   const [isPaneOpen, setIsPaneOpen] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState({
     title: true,
@@ -86,6 +87,27 @@ const UserPosts = () => {
   const handleDelete = async post => {
     try {
       await postsApi.destroy(post.slug);
+      fetchUserPosts();
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const handleBulkUpdate = async (posts, status) => {
+    try {
+      await postsApi.bulkUpdateStatus({
+        post_ids: posts,
+        status,
+      });
+      fetchUserPosts();
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const handleBulkDelete = async posts => {
+    try {
+      await postsApi.bulkDestroy({ post_ids: posts });
       fetchUserPosts();
     } catch (error) {
       logger.error(error);
@@ -318,48 +340,103 @@ const UserPosts = () => {
     <>
       <h1 className="text-2xl font-bold">My Blog Posts</h1>
       <div className="flex flex-col">
-        <div className="mb-4 mt-4 flex items-center justify-between">
-          <div className="flex items-center">
-            <h3 className="text-md mr-2 text-gray-500">
-              {posts.length === 1 ? "1 article" : `${posts.length} articles`}
-            </h3>
-            <FilterTags
-              appliedFilters={appliedFilters}
-              handleClearFilters={handleClearFilters}
-              setAppliedFilters={setAppliedFilters}
-              setFilters={setFilters}
-            />
+        {selectedPosts.length === 0 && (
+          <div className="mb-4 mt-4 flex items-center justify-between">
+            <div className="flex items-center">
+              <h3 className="text-md mr-2 text-gray-500">
+                {posts.length === 1 ? "1 article" : `${posts.length} articles`}
+              </h3>
+              <FilterTags
+                appliedFilters={appliedFilters}
+                handleClearFilters={handleClearFilters}
+                setAppliedFilters={setAppliedFilters}
+                setFilters={setFilters}
+              />
+            </div>
+            <div className="flex items-center gap-4">
+              <div>
+                <ActionDropdown
+                  buttonProps={{ size: "medium" }}
+                  buttonStyle="secondary"
+                  label="Columns"
+                >
+                  {columnsForDropdown.map(column => (
+                    <div className="px-4 py-2" key={column.key}>
+                      <Checkbox
+                        checked={visibleColumns[column.key]}
+                        disabled={column.key === "title"}
+                        id={`column-${column.key}`}
+                        label={column.title}
+                        onChange={() =>
+                          handleColumnVisibilityChange(column.key)
+                        }
+                      />
+                    </div>
+                  ))}
+                </ActionDropdown>
+              </div>
+              <div>
+                <Button
+                  icon={Filter}
+                  size="medium"
+                  style="tertiary"
+                  onClick={() => setIsPaneOpen(true)}
+                />
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-4">
+        )}
+        {selectedPosts.length > 0 && (
+          <div className="mb-4 mt-4 flex items-center justify-start gap-4">
             <div>
-              <ActionDropdown
+              <span className="text-base text-black">
+                <span className="font-bold text-gray-600">
+                  {selectedPosts.length === 1
+                    ? "1 article"
+                    : `${selectedPosts.length} articles`}{" "}
+                </span>{" "}
+                selected out of {posts.length}
+              </span>
+            </div>
+            <div>
+              <Dropdown
                 buttonProps={{ size: "medium" }}
                 buttonStyle="secondary"
-                label="Columns"
+                label="Change status"
               >
-                {columnsForDropdown.map(column => (
-                  <div className="px-4 py-2" key={column.key}>
-                    <Checkbox
-                      checked={visibleColumns[column.key]}
-                      disabled={column.key === "title"}
-                      id={`column-${column.key}`}
-                      label={column.title}
-                      onChange={() => handleColumnVisibilityChange(column.key)}
+                <Menu>
+                  <MenuItem className="w-full p-2 text-start">
+                    <Button
+                      className="w-full text-black"
+                      label="Publish"
+                      style="link"
+                      onClick={() =>
+                        handleBulkUpdate(selectedPosts, "published")
+                      }
                     />
-                  </div>
-                ))}
-              </ActionDropdown>
+                  </MenuItem>
+                  <MenuItem className=" w-full p-2 text-start">
+                    <Button
+                      className="w-full text-black"
+                      label="Draft"
+                      style="link"
+                      onClick={() => handleBulkUpdate(selectedPosts, "draft")}
+                    />
+                  </MenuItem>
+                </Menu>
+              </Dropdown>
             </div>
             <div>
               <Button
-                icon={Filter}
+                icon={Delete}
+                label="Delete"
                 size="medium"
-                style="tertiary"
-                onClick={() => setIsPaneOpen(true)}
+                style="danger"
+                onClick={() => handleBulkDelete(selectedPosts)}
               />
             </div>
           </div>
-        </div>
+        )}
         {Object.keys(appliedFilters).length > 0 && (
           <div className="mb-4">
             <span className="text-sm text-gray-500">

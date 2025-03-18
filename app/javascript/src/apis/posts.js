@@ -43,6 +43,21 @@ const fetchUserPosts = (filters = {}) =>
     },
   });
 
-const postsApi = { create, destroy, fetch, show, update, fetchUserPosts };
+const bulkUpdateStatus = ({ post_ids, status }) =>
+  axios.post("/api/v1/posts/bulk_update", { post_ids, status });
+
+const bulkDestroy = ({ post_ids }) =>
+  axios.post("/api/v1/posts/bulk_destroy", { post_ids });
+
+const postsApi = {
+  fetch,
+  show,
+  create,
+  update,
+  destroy,
+  fetchUserPosts,
+  bulkUpdateStatus,
+  bulkDestroy,
+};
 
 export default postsApi;
