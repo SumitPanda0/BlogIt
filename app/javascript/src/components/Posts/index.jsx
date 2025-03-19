@@ -168,7 +168,7 @@ const Posts = () => {
                 key={post.id}
               >
                 <div>
-                  <div className="flex items-center justify-center gap-2">
+                  <div className="flex items-center gap-2">
                     <Link to={`/posts/${post.slug}/show`}>
                       <h2 className="mb-2 text-xl font-semibold">
                         {post.title}
