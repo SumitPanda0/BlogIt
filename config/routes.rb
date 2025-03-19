@@ -26,6 +26,7 @@ Rails.application.routes.draw do
             post :bulk_update
             post :bulk_destroy
           end
+          post :vote, to: "votes#vote"
         end
         resources :users, only: %i[index create]
         resources :organizations, only: [:index]

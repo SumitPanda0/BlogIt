@@ -405,9 +405,9 @@ const UserPosts = () => {
                 label="Change status"
               >
                 <Menu>
-                  <MenuItem className=" w-full  p-3 text-center">
+                  <MenuItem className=" w-full  p-3">
                     <Button
-                      className="text-black"
+                      className="w-full text-black"
                       label="Publish"
                       style="link"
                       onClick={() =>
@@ -415,9 +415,9 @@ const UserPosts = () => {
                       }
                     />
                   </MenuItem>
-                  <MenuItem className="w-full p-3 text-center">
+                  <MenuItem className="w-full p-3">
                     <Button
-                      className="text-black"
+                      className="w-full text-black"
                       label="Draft"
                       style="link"
                       onClick={() => handleBulkUpdate(selectedPosts, "draft")}

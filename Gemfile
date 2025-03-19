@@ -55,6 +55,8 @@ gem "react-rails", "~> 2.7.1"
 
 gem "pundit"
 
+gem "pagy", "~> 5.10"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]

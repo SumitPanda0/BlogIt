@@ -8,6 +8,8 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :organization
   has_and_belongs_to_many :categories
+  has_many :votes, dependent: :destroy
+  has_many :voters, through: :votes, source: :user
 
   validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }
   validates :description, presence: true, length: { maximum: MAX_DESCRIPTION_LENGTH }

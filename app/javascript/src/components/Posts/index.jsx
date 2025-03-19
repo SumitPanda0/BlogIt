@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 
-import { Tag } from "@bigbinary/neetoui";
+import { Down, Up } from "@bigbinary/neeto-icons";
+import { Button, Tag } from "@bigbinary/neetoui";
 import { Link, useLocation, useHistory } from "react-router-dom";
 
 import categoriesApi from "../../apis/categories";
 import postsApi from "../../apis/posts";
+import votesApi from "../../apis/votes";
 import { PageLoader } from "../../common/PageLoader";
 import { getFromLocalStorage } from "../../utils/storage";
 
@@ -23,6 +25,7 @@ const Posts = () => {
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
   const isLoggedIn = !!getFromLocalStorage("authToken");
+  const [userVotes, setUserVotes] = useState({});
 
   const fetchPosts = async categoryIds => {
     try {
@@ -49,6 +52,34 @@ const Posts = () => {
       setCategories(data.categories || []);
     } catch (err) {
       logger.log(err);
+    }
+  };
+
+  const handleVote = async (slug, voteType) => {
+    if (!isLoggedIn) {
+      history.push("/login");
+
+      return;
+    }
+
+    try {
+      const { data } = await votesApi.vote({
+        payload: { postSlug: slug, voteType },
+      });
+
+      setPosts(prevPosts =>
+        prevPosts.map(post =>
+          post.slug === slug ? { ...post, ...data.post } : post
+        )
+      );
+
+      setUserVotes(prev => {
+        const newVote = prev[slug] === voteType ? null : voteType;
+
+        return { ...prev, [slug]: newVote };
+      });
+    } catch (err) {
+      logger.error("Error voting:", err);
     }
   };
 
@@ -132,43 +163,81 @@ const Posts = () => {
         ) : (
           <div className="divide-y">
             {posts.map(post => (
-              <div className="py-6" key={post.id}>
-                <Link to={`/posts/${post.slug}/show`}>
-                  <h2 className="mb-2 text-xl font-semibold">{post.title}</h2>
-                </Link>
-                {post.categories && post.categories.length > 0 && (
-                  <div className="mb-4 flex items-center gap-2">
-                    {post.categories.map(category => (
-                      <Tag
-                        className="bg-green-200 p-2 font-semibold"
-                        key={category.id}
-                        label={category.name}
-                        style="primary"
-                        type="solid"
-                      />
-                    ))}
-                  </div>
-                )}
-                <p className="mb-1 line-clamp-2 w-[80%] text-gray-700">
-                  {post.description}
-                </p>
-                <div className="mb-2 flex items-center gap-4">
-                  {post.user && (
-                    <div className="text-sm font-semibold text-gray-600">
-                      {post.user.name}
+              <div
+                className="flex items-center justify-between py-6"
+                key={post.id}
+              >
+                <div>
+                  <Link to={`/posts/${post.slug}/show`}>
+                    <h2 className="mb-2 text-xl font-semibold">{post.title}</h2>
+                  </Link>
+                  {post.categories && post.categories.length > 0 && (
+                    <div className="mb-4 flex items-center gap-2">
+                      {post.categories.map(category => (
+                        <Tag
+                          className="bg-green-200 p-2 font-semibold"
+                          key={category.id}
+                          label={category.name}
+                          style="primary"
+                          type="solid"
+                        />
+                      ))}
                     </div>
                   )}
+                  <p className="mb-1 line-clamp-2 w-[80%] text-gray-700">
+                    {post.description}
+                  </p>
+                  <div className="mb-2 flex items-center gap-4">
+                    {post.user && (
+                      <div className="text-sm font-semibold text-gray-600">
+                        {post.user.name}
+                      </div>
+                    )}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {getDisplayDate(post)}
+                  </div>
+                  <div className="post-meta">
+                    {post.status === "draft" && (
+                      <span className="status-badge draft">Draft</span>
+                    )}
+                    {post.status === "published" && (
+                      <span className="status-badge published">Published</span>
+                    )}
+                  </div>
                 </div>
-                <div className="text-xs text-gray-500">
-                  {getDisplayDate(post)}
-                </div>
-                <div className="post-meta">
-                  {post.status === "draft" && (
-                    <span className="status-badge draft">Draft</span>
-                  )}
-                  {post.status === "published" && (
-                    <span className="status-badge published">Published</span>
-                  )}
+                <div className="mr-8 mt-2 flex flex-col items-center gap-2">
+                  <Button
+                    icon={Up}
+                    size="large"
+                    style="link"
+                    className={`flex items-center gap-1 rounded-md border px-2 py-1 text-2xl text-green-600 hover:bg-green-200 ${
+                      userVotes[post.slug] === "upvote"
+                        ? "bg-green-800 text-green-100"
+                        : ""
+                    }`}
+                    onClick={e => {
+                      e.preventDefault();
+                      handleVote(post.slug, "upvote");
+                    }}
+                  />
+                  <span className="text-xl font-bold text-gray-500">
+                    {post.upvotes - post.downvotes}
+                  </span>
+                  <Button
+                    icon={Down}
+                    size="large"
+                    style="link"
+                    className={`flex items-center gap-1 rounded-md border px-2 py-1 text-2xl text-red-800 hover:bg-red-200 ${
+                      userVotes[post.slug] === "downvote"
+                        ? "bg-red-800 text-red-100"
+                        : ""
+                    }`}
+                    onClick={e => {
+                      e.preventDefault();
+                      handleVote(post.slug, "downvote");
+                    }}
+                  />
                 </div>
               </div>
             ))}

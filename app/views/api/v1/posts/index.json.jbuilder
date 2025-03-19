@@ -2,7 +2,7 @@
 
 json.posts do
   json.array! @posts do |post|
-    json.extract! post, :id, :title, :description, :slug, :status, :created_at, :updated_at
+    json.extract! post, :id, :title, :description, :slug, :status, :created_at, :updated_at, :votes_count, :upvotes, :downvotes
 
     json.user do
       json.extract! post.user, :id, :name
@@ -12,6 +12,11 @@ json.posts do
       json.array! post.categories do |category|
         json.extract! category, :id, :name
       end
+    end
+
+    if defined?(current_user) && current_user
+      user_vote = post.votes.find_by(user: current_user)
+      json.current_user_vote user_vote ? user_vote.vote_type : nil
     end
   end
 end
