@@ -33,7 +33,7 @@ const Posts = () => {
       const {
         data: { posts },
       } = await postsApi.fetch(categoryIds);
-
+      logger.log(posts);
       const sortedPosts = [...posts].sort(
         (a, b) => new Date(b.created_at) - new Date(a.created_at)
       );
@@ -168,9 +168,16 @@ const Posts = () => {
                 key={post.id}
               >
                 <div>
-                  <Link to={`/posts/${post.slug}/show`}>
-                    <h2 className="mb-2 text-xl font-semibold">{post.title}</h2>
-                  </Link>
+                  <div className="flex items-center justify-center gap-2">
+                    <Link to={`/posts/${post.slug}/show`}>
+                      <h2 className="mb-2 text-xl font-semibold">
+                        {post.title}
+                      </h2>
+                    </Link>
+                    {post.is_bloggable && (
+                      <Tag className="mb-2" label="Blog it" style="warning" />
+                    )}
+                  </div>
                   {post.categories && post.categories.length > 0 && (
                     <div className="mb-4 flex items-center gap-2">
                       {post.categories.map(category => (
@@ -211,7 +218,7 @@ const Posts = () => {
                     icon={Up}
                     size="large"
                     style="link"
-                    className={`flex items-center gap-1 rounded-md border px-2 py-1 text-2xl text-green-600 hover:bg-green-200 ${
+                    className={`flex items-center gap-1 rounded-md border px-2 py-1 text-2xl text-green-600 hover:bg-green-800 hover:text-green-100 ${
                       userVotes[post.slug] === "upvote"
                         ? "bg-green-800 text-green-100"
                         : ""
@@ -228,7 +235,7 @@ const Posts = () => {
                     icon={Down}
                     size="large"
                     style="link"
-                    className={`flex items-center gap-1 rounded-md border px-2 py-1 text-2xl text-red-800 hover:bg-red-200 ${
+                    className={`flex items-center gap-1 rounded-md border px-2 py-1 text-2xl text-red-600 hover:bg-red-800 hover:text-red-100 ${
                       userVotes[post.slug] === "downvote"
                         ? "bg-red-800 text-red-100"
                         : ""
