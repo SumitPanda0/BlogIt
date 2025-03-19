@@ -105,10 +105,5 @@
   },
   "scripts": {
     "prepare": "husky install"
-  },
-  "engines": {
-    "node": "18.12",
-    "npm": "8.19.2",
-    "yarn": "1.22.22"
   }
 }
