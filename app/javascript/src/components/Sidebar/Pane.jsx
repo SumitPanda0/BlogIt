@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Modal from "./Modal";
 
 import categoriesApi from "../../apis/categories";
+import useFuncDebounce from "../../hooks/useFuncDebounce";
 
 const Pane = ({ onCategorySelect, selectedCategoryIds = [] }) => {
   const [categories, setCategories] = useState([]);
@@ -25,6 +26,8 @@ const Pane = ({ onCategorySelect, selectedCategoryIds = [] }) => {
     }
   };
 
+  const debouncedFetchCategories = useFuncDebounce(fetchCategories);
+
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -32,7 +35,7 @@ const Pane = ({ onCategorySelect, selectedCategoryIds = [] }) => {
   const handleSearch = e => {
     const value = e.target.value;
     setSearchTerm(value);
-    fetchCategories(value);
+    debouncedFetchCategories(value);
   };
 
   const toggleSearch = () => {
