@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { MenuHorizontal, ExternalLink } from "@bigbinary/neeto-icons";
-import { ActionDropdown, Button, Dropdown } from "@bigbinary/neetoui";
+import { ActionDropdown, Alert, Button, Dropdown } from "@bigbinary/neetoui";
 import {
   Form as NeetoUIForm,
   Input,
@@ -32,6 +32,7 @@ const Form = ({
 }) => {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const history = useHistory();
   const { Menu } = ActionDropdown;
   const fetchCategories = async () => {
@@ -139,7 +140,7 @@ const Form = ({
                     className="border-none bg-white text-red-500"
                     label="Delete"
                     style="danger"
-                    onClick={handleDelete}
+                    onClick={() => setIsAlertOpen(true)}
                   />
                 </Dropdown>
               </div>
@@ -196,6 +197,15 @@ const Form = ({
           </>
         )}
       </NeetoUIForm>
+      <Alert
+        cancelButtonLabel="Cancel"
+        isOpen={isAlertOpen}
+        message="Are you sure you want to delete this post? This action cannot be undone."
+        submitButtonLabel="Delete"
+        title="Are you sure you want to delete this post?"
+        onClose={() => setIsAlertOpen(false)}
+        onSubmit={handleDelete}
+      />
     </div>
   );
 };

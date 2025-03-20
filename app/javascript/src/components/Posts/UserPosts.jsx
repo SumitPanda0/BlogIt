@@ -7,6 +7,7 @@ import {
   Dropdown,
   Table,
   Checkbox,
+  Alert,
 } from "@bigbinary/neetoui";
 import { Link, useHistory } from "react-router-dom";
 
@@ -22,6 +23,7 @@ const UserPosts = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const history = useHistory();
   const isLoggedIn = !!getFromLocalStorage("authToken");
   const [selectedPosts, setSelectedPosts] = useState([]);
@@ -43,6 +45,9 @@ const UserPosts = () => {
   const [appliedFilters, setAppliedFilters] = useState({});
 
   const { Menu, MenuItem, Divider } = Dropdown;
+  const [postToDelete, setPostToDelete] = useState(null);
+  const [isBulkDeleteAlertOpen, setIsBulkDeleteAlertOpen] = useState(false);
+
   const fetchUserPosts = async () => {
     try {
       setLoading(true);
@@ -276,7 +281,10 @@ const UserPosts = () => {
                   className="w-full items-center justify-center p-2 text-red-500"
                   label="Delete"
                   style="link"
-                  onClick={() => handleDelete(post)}
+                  onClick={() => {
+                    setPostToDelete(post);
+                    setIsAlertOpen(true);
+                  }}
                 />
               </MenuItem>
             </Menu>
@@ -296,7 +304,10 @@ const UserPosts = () => {
                   className="w-full items-center justify-center p-2 text-red-500"
                   label="Delete"
                   style="link"
-                  onClick={() => handleDelete(post)}
+                  onClick={() => {
+                    setPostToDelete(post);
+                    setIsAlertOpen(true);
+                  }}
                 />
               </MenuItem>
             </Menu>
@@ -432,7 +443,7 @@ const UserPosts = () => {
                 label="Delete"
                 size="medium"
                 style="danger"
-                onClick={() => handleBulkDelete(selectedPosts)}
+                onClick={() => setIsBulkDeleteAlertOpen(true)}
               />
             </div>
           </div>
@@ -475,6 +486,36 @@ const UserPosts = () => {
         rowData={rowData}
         selectedRowKeys={selectedPosts}
         onRowSelect={selectedPosts => setSelectedPosts(selectedPosts)}
+      />
+      <Alert
+        cancelButtonLabel="Cancel"
+        isOpen={isAlertOpen}
+        message="Are you sure you want to delete this post? This action cannot be undone."
+        submitButtonLabel="Delete"
+        title="Are you sure you want to delete this post?"
+        onClose={() => {
+          setIsAlertOpen(false);
+          setPostToDelete(null);
+        }}
+        onSubmit={() => {
+          if (postToDelete) {
+            handleDelete(postToDelete);
+          }
+          setIsAlertOpen(false);
+          setPostToDelete(null);
+        }}
+      />
+      <Alert
+        cancelButtonLabel="Cancel"
+        isOpen={isBulkDeleteAlertOpen}
+        message={`Are you sure you want to delete ${selectedPosts.length} selected posts? This action cannot be undone.`}
+        submitButtonLabel="Delete"
+        title="Delete Selected Posts?"
+        onClose={() => setIsBulkDeleteAlertOpen(false)}
+        onSubmit={() => {
+          handleBulkDelete(selectedPosts);
+          setIsBulkDeleteAlertOpen(false);
+        }}
       />
     </>
   );
