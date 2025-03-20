@@ -5,7 +5,7 @@ class Api::V1::CategoriesController < ApplicationController
 
   def index
     @categories = if params[:search].present?
-      Category.where("name LIKE ?", "%#{params[:search]}%").order(:name)
+      Category.where("name #{Constants::LIKE_OPERATOR} ?", "%#{params[:search]}%").order(:name)
     else
       Category.all.order(:name)
     end
