@@ -2,16 +2,18 @@
 import React, { useEffect, useState } from "react";
 
 import { Edit } from "@bigbinary/neeto-icons";
-import { Avatar, Tag, Button } from "@bigbinary/neetoui";
+import { Avatar, Tag, Button, Alert } from "@bigbinary/neetoui";
 import { useHistory, useParams } from "react-router-dom";
 
 import postsApi from "apis/posts";
 
 import { PageLoader } from "../../common/PageLoader";
+import { getFromLocalStorage } from "../../utils/storage";
 
 const Show = () => {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const { slug } = useParams();
   const history = useHistory();
 
@@ -56,6 +58,9 @@ const Show = () => {
     history.push(`/posts/${slug}/edit`);
   };
 
+  const isEditButtonDisabled =
+    getFromLocalStorage("authUserId") !== post?.user?.id;
+
   useEffect(() => {
     fetchPostDetails();
   }, []);
@@ -90,7 +95,13 @@ const Show = () => {
                 style={post.status === "published" ? "success" : "danger"}
               />
             </div>
-            <Button icon={Edit} style="text" onClick={handleEdit} />
+            <Button
+              icon={Edit}
+              style="text"
+              onClick={
+                isEditButtonDisabled ? () => setIsAlertOpen(true) : handleEdit
+              }
+            />
           </div>
           <div className="mb-4 flex items-center gap-x-3">
             <Avatar size="medium" user={{ name: "User" }} />
@@ -110,6 +121,15 @@ const Show = () => {
           <p className="text-base text-gray-700">{post.description}</p>
         </div>
       </div>
+      <Alert
+        cancelButtonLabel="Cancel"
+        isOpen={isAlertOpen}
+        message="You are not authorized to edit this post. This action is restricted to the author of the post."
+        submitButtonLabel="Ok"
+        title="Unauthorized Action"
+        onClose={() => setIsAlertOpen(false)}
+        onSubmit={() => setIsAlertOpen(false)}
+      />
     </div>
   );
 };

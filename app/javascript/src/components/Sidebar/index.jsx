@@ -18,7 +18,7 @@ import { resetAuthTokens } from "apis/axios";
 import Pane from "./Pane";
 
 import { getFromLocalStorage, setToLocalStorage } from "../../utils/storage";
-import { POSTS, LIST, CREATE_POST } from "../constants";
+import { POSTS, LIST, CREATE_POST, BASE_URL } from "../constants";
 import { SidebarNavLinkItem } from "../utils/sidebarNavLinkItem";
 import {
   getSidebarPaneClass,
@@ -58,6 +58,9 @@ const Sidebar = () => {
       logger.error(error);
     }
   };
+
+  const isCategorySidebarDisabled =
+    location.pathname !== POSTS && location.pathname !== BASE_URL;
 
   const handleLogin = () => {
     history.push("/login");
@@ -105,6 +108,7 @@ const Sidebar = () => {
           >
             <Button
               className={getToggleIconClass(isCategorySidebarOpen)}
+              disabled={isCategorySidebarDisabled}
               icon={ListDetails}
               style="link"
             />
