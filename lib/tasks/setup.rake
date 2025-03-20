@@ -58,3 +58,27 @@ rescue ActiveRecord::RecordInvalid => e
     raise(e)
   end
 end
+
+desc "Creates initial data for production environment (users and organizations only)"
+task create_production_data: [:environment] do
+  begin
+    puts "Creating initial production data..."
+
+    # Create organizations
+    org1 = Organization.find_or_create_by!(name: "Main Organization")
+    org2 = Organization.find_or_create_by!(name: "Secondary Organization")
+    org3 = Organization.find_or_create_by!(name: "Third Organization")
+
+    # Create users
+    create_user!(name: "Oliver Smith", email: "oliver@example.com", organization: org1)
+    create_user!(name: "Sam Johnson", email: "sam@example.com", organization: org2)
+
+    puts "Initial production data has been created successfully"
+    puts "You can now login with either of these accounts:"
+    puts "1. oliver@example.com / welcome"
+    puts "2. sam@example.com / welcome"
+  rescue StandardError => e
+    puts "Error: #{e.message}"
+    puts "Production data creation failed!"
+  end
+end
