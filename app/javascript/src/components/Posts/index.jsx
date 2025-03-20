@@ -218,9 +218,9 @@ const Posts = () => {
                     icon={Up}
                     size="large"
                     style="link"
-                    className={`flex items-center gap-1 rounded-md border px-2 py-1 text-2xl text-green-600 hover:bg-green-800 hover:text-green-100 ${
+                    className={`flex items-center gap-1 rounded-md border px-2 py-1 text-2xl text-green-600 hover:bg-green-600 hover:text-white ${
                       userVotes[post.slug] === "upvote"
-                        ? "bg-green-800 text-green-100"
+                        ? "bg-green-600 text-white"
                         : ""
                     }`}
                     onClick={e => {
@@ -235,9 +235,9 @@ const Posts = () => {
                     icon={Down}
                     size="large"
                     style="link"
-                    className={`flex items-center gap-1 rounded-md border px-2 py-1 text-2xl text-red-600 hover:bg-red-800 hover:text-red-100 ${
+                    className={`flex items-center gap-1 rounded-md border px-2 py-1 text-2xl text-red-600 hover:bg-red-600 hover:text-white ${
                       userVotes[post.slug] === "downvote"
-                        ? "bg-red-800 text-red-100"
+                        ? "bg-red-600 text-white"
                         : ""
                     }`}
                     onClick={e => {
