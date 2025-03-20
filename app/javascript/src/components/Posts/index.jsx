@@ -167,7 +167,7 @@ const Posts = () => {
                 className="flex items-center justify-between py-6"
                 key={post.id}
               >
-                <div>
+                <div className="mr-16 flex-1">
                   <div className="flex items-center gap-2">
                     <Link to={`/posts/${post.slug}/show`}>
                       <h2 className="mb-2 text-xl font-semibold">
