@@ -65,7 +65,7 @@ const UserPosts = () => {
 
   const handlePublish = async post => {
     try {
-      await postsApi.update({
+      await postsApi.update(post.slug, {
         ...post,
         status: "published",
       });
@@ -78,7 +78,7 @@ const UserPosts = () => {
 
   const handleUnpublish = async post => {
     try {
-      await postsApi.update({
+      await postsApi.update(post.slug, {
         ...post,
         status: "draft",
       });
