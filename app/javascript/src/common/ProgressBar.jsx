@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { motion } from "framer-motion";
 
 const ProgressBar = ({ progress }) => (
-  <div className="relative h-5 w-full overflow-hidden rounded-full bg-gray-200">
+  <div className="relative mt-6 h-5 w-full overflow-hidden rounded-full bg-gray-200">
     <motion.div
       animate={{ width: `${progress}%` }}
       className="text-2xs flex h-5 animate-pulse items-center justify-center rounded-full bg-indigo-300 font-medium leading-none"
