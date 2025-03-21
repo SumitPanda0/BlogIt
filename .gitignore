@@ -20,6 +20,9 @@ instructions.md
 # Ignore node packages
 node_modules
 
+# Ignore GCS keyfile
+config/granite-454312-6f37084b5a57.json
+
 # Rails specific ignores
 /storage
 /vendor

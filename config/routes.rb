@@ -25,6 +25,9 @@ Rails.application.routes.draw do
             get :user_posts
             post :bulk_update
             post :bulk_destroy
+            resource :report, only: %i[create], module: :posts do
+              get :download, on: :collection
+            end
           end
           post :vote, to: "votes#vote"
         end

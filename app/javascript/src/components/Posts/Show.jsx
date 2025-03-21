@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 
-import { Edit } from "@bigbinary/neeto-icons";
-import { Avatar, Tag, Button, Alert } from "@bigbinary/neetoui";
+import { Download, Edit } from "@bigbinary/neeto-icons";
+import { Avatar, Tag, Button, Alert, Modal } from "@bigbinary/neetoui";
 import { useHistory, useParams } from "react-router-dom";
 
 import postsApi from "apis/posts";
+
+import DownloadReport from "./DownloadReport";
 
 import { PageLoader } from "../../common/PageLoader";
 import { getFromLocalStorage } from "../../utils/storage";
@@ -14,6 +16,7 @@ const Show = () => {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { slug } = useParams();
   const history = useHistory();
 
@@ -95,13 +98,20 @@ const Show = () => {
                 style={post.status === "published" ? "success" : "danger"}
               />
             </div>
-            <Button
-              icon={Edit}
-              style="text"
-              onClick={
-                isEditButtonDisabled ? () => setIsAlertOpen(true) : handleEdit
-              }
-            />
+            <div className="flex items-center gap-x-6">
+              <Button
+                icon={Download}
+                style="text"
+                onClick={() => setIsModalOpen(true)}
+              />
+              <Button
+                icon={Edit}
+                style="text"
+                onClick={
+                  isEditButtonDisabled ? () => setIsAlertOpen(true) : handleEdit
+                }
+              />
+            </div>
           </div>
           <div className="mb-4 flex items-center gap-x-3">
             <Avatar size="medium" user={{ name: "User" }} />
@@ -130,6 +140,14 @@ const Show = () => {
         onClose={() => setIsAlertOpen(false)}
         onSubmit={() => setIsAlertOpen(false)}
       />
+      <Modal
+        isOpen={isModalOpen}
+        size="large"
+        title="Download Report"
+        onClose={() => setIsModalOpen(false)}
+      >
+        <DownloadReport postId={post.id} />
+      </Modal>
     </div>
   );
 };

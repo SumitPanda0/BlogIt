@@ -49,6 +49,14 @@ const bulkUpdateStatus = ({ post_ids, status }) =>
 const bulkDestroy = ({ post_ids }) =>
   axios.post("/api/v1/posts/bulk_destroy", { post_ids });
 
+const generatePdf = postId => axios.post(`/api/v1/posts/report`, { postId });
+
+const download = postId =>
+  axios.get(`/api/v1/posts/report/download`, {
+    responseType: "blob",
+    params: { postId },
+  });
+
 const postsApi = {
   fetch,
   show,
@@ -58,6 +66,8 @@ const postsApi = {
   fetchUserPosts,
   bulkUpdateStatus,
   bulkDestroy,
+  generatePdf,
+  download,
 };
 
 export default postsApi;

@@ -35,6 +35,13 @@ en:
   successfully_created: "%{entity} was successfully created!"
   successfully_updated: "%{entity} was successfully updated!"
   generic_error: "Something went wrong. Please try again later."
+  report:
+    render: "Rendering the report"
+    generate: "Generating the PDF report"
+    upload: "Uploading to server"
+    attach: "Attaching the report to the user"
   post:
     slug:
       immutable: "is immutable!"
+  not_found: "%{entity} not found"
+  in_progress: "Report generation in progress"

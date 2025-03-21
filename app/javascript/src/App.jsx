@@ -16,6 +16,7 @@ import { Login, Signup } from "./components/Authentication";
 import List from "./components/List";
 import Posts from "./components/Posts";
 import CreatePost from "./components/Posts/Create";
+import DownloadReport from "./components/Posts/DownloadReport";
 import EditPost from "./components/Posts/Edit";
 import FullPagePreview from "./components/Posts/FullPagePreview";
 import ShowPost from "./components/Posts/Show";
@@ -36,6 +37,7 @@ const App = () => {
             <Route exact component={CreatePost} path="/posts/create" />
             <Route exact component={ShowPost} path="/posts/:slug/show" />
             <Route exact component={EditPost} path="/posts/:slug/edit" />
+            <Route exact component={DownloadReport} path="/posts/report" />
             <Route
               exact
               component={FullPagePreview}
