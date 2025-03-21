@@ -58,19 +58,19 @@ const DownloadReport = ({ postId }) => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-y-8">
-      <div className="mb-4 w-full">
+      <div className="w-full">
         <div className="mx-auto w-full overflow-hidden rounded-lg border border-gray-200 bg-white text-gray-800 sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-2xl">
-          <div className="space-y-2 p-6">
-            <p className="text-xl font-semibold">{message}</p>
+          <div className="p-6">
+            <p className="mb-2 text-sm text-gray-500">
+              Report is being generated, please wait...
+            </p>
             <ProgressBar progress={progress} />
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center gap-y-4">
+      <div className="mb-2 flex flex-col items-center justify-center gap-y-4">
+        <p className="text-xl font-semibold">{message}</p>
         <Button label="Download" loading={isLoading} onClick={downloadPdf} />
-        <p className="mb-2 text-sm text-gray-500">
-          Report is being generated, please wait...
-        </p>
       </div>
     </div>
   );

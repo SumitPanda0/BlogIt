@@ -14,7 +14,7 @@ export const subscribeToReportDownloadChannel = ({
     },
     {
       connected() {
-        setMessage("Connected the Cables...");
+        setMessage("Starting report generation...");
         generatePdf();
       },
       received(data) {
