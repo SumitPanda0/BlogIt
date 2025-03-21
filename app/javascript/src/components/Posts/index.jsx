@@ -25,7 +25,6 @@ const Posts = () => {
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
   const isLoggedIn = !!getFromLocalStorage("authToken");
-  const [userVotes, setUserVotes] = useState({});
 
   const fetchPosts = async categoryIds => {
     try {
@@ -72,12 +71,6 @@ const Posts = () => {
           post.slug === slug ? { ...post, ...data.post } : post
         )
       );
-
-      setUserVotes(prev => {
-        const newVote = prev[slug] === voteType ? null : voteType;
-
-        return { ...prev, [slug]: newVote };
-      });
     } catch (err) {
       logger.error("Error voting:", err);
     }
@@ -219,9 +212,7 @@ const Posts = () => {
                     size="large"
                     style="link"
                     className={`flex items-center gap-1 rounded-md border px-2 py-1 text-2xl text-green-600 hover:bg-green-600 hover:text-white ${
-                      userVotes[post.slug] === "upvote"
-                        ? "bg-green-600 text-white"
-                        : ""
+                      post.upvotes !== 0 ? "bg-green-600 text-white" : ""
                     }`}
                     onClick={e => {
                       e.preventDefault();
@@ -236,9 +227,7 @@ const Posts = () => {
                     size="large"
                     style="link"
                     className={`flex items-center gap-1 rounded-md border px-2 py-1 text-2xl text-red-600 hover:bg-red-600 hover:text-white ${
-                      userVotes[post.slug] === "downvote"
-                        ? "bg-red-600 text-white"
-                        : ""
+                      post.downvotes !== 0 ? "bg-red-600 text-white" : ""
                     }`}
                     onClick={e => {
                       e.preventDefault();
