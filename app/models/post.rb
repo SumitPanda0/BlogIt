@@ -22,6 +22,7 @@ class Post < ApplicationRecord
   validate :slug_not_changed
 
   before_create :set_slug
+  after_create :log_post_details
 
   private
 
@@ -46,5 +47,9 @@ class Post < ApplicationRecord
       if will_save_change_to_slug? && self.persisted?
         errors.add(:slug, I18n.t("post.slug.immutable"))
       end
+    end
+
+    def log_post_details
+      PostLoggerJob.perform_async(self.id)
     end
 end
