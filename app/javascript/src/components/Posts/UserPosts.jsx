@@ -198,12 +198,14 @@ const UserPosts = () => {
 
   const getDisplayDate = post => {
     if (post.status === "published") {
-      return post.updated_at
-        ? formatDate(post.updated_at)
+      return post.published_at
+        ? formatDate(post.published_at)
         : formatDate(post.created_at);
     }
 
-    return post.updated_at ? formatDate(post.updated_at) : "Date unavailable";
+    return post.last_published_at
+      ? `${formatDate(post.last_published_at)}`
+      : "Never published";
   };
 
   const allColumnData = [
@@ -337,6 +339,8 @@ const UserPosts = () => {
     status: post.status,
     updated_at: formatDate(post.updated_at),
     created_at: formatDate(post.created_at),
+    published_at: post.published_at,
+    last_published_at: post.last_published_at,
   }));
 
   const columnsForDropdown = [

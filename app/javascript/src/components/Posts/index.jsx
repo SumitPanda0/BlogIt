@@ -114,10 +114,6 @@ const Posts = () => {
   };
 
   const getDisplayDate = post => {
-    if (post.display_date) {
-      return post.display_date;
-    }
-
     if (post.status === "published") {
       return post.published_at
         ? formatDate(post.published_at)
