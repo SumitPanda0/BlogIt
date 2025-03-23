@@ -2,5 +2,5 @@
 
 json.notice @notice
 json.category do
-  json.extract! @category, :id, :name
+  json.partial! "api/v1/categories/category", category: @category
 end
