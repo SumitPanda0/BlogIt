@@ -212,7 +212,9 @@ const Posts = () => {
                     size="large"
                     style="link"
                     className={`flex items-center gap-1 rounded-md border px-2 py-1 text-2xl text-green-600 hover:bg-green-600 hover:text-white ${
-                      post.upvotes !== 0 ? "bg-green-600 text-white" : ""
+                      post.current_user_vote === "upvote"
+                        ? "bg-green-600 text-white"
+                        : ""
                     }`}
                     onClick={e => {
                       e.preventDefault();
@@ -227,7 +229,9 @@ const Posts = () => {
                     size="large"
                     style="link"
                     className={`flex items-center gap-1 rounded-md border px-2 py-1 text-2xl text-red-600 hover:bg-red-600 hover:text-white ${
-                      post.downvotes !== 0 ? "bg-red-600 text-white" : ""
+                      post.current_user_vote === "downvote"
+                        ? "bg-red-600 text-white"
+                        : ""
                     }`}
                     onClick={e => {
                       e.preventDefault();
