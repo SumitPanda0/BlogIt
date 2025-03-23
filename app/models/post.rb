@@ -27,6 +27,7 @@ class Post < ApplicationRecord
 
   before_create :set_slug
   after_create :log_post_details
+  before_save :manage_publish_timestamps, if: -> { status_changed? }
 
   private
 
@@ -55,5 +56,14 @@ class Post < ApplicationRecord
 
     def log_post_details
       PostLoggerJob.perform_async(self.id)
+    end
+
+    def manage_publish_timestamps
+      if status == "published" && status_was == "draft"
+        self.last_published_at = published_at if published_at.present?
+        self.published_at = Time.current
+      elsif status == "draft" && status_was == "published"
+        self.last_published_at = published_at
+      end
     end
 end

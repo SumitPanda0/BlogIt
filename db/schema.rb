@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_21_095731) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_23_132131) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -79,6 +79,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_095731) do
     t.integer "organization_id", null: false
     t.string "status", default: "draft", null: false
     t.integer "votes_count"
+    t.datetime "published_at"
+    t.datetime "last_published_at"
     t.index ["organization_id"], name: "index_posts_on_organization_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
     t.index ["status"], name: "index_posts_on_status"

@@ -2,7 +2,10 @@
 
 json.posts do
   json.array! @posts do |post|
-    json.extract! post, :id, :title, :description, :slug, :status, :created_at, :updated_at, :votes_count, :upvotes, :downvotes, :is_bloggable
+    json.extract! post, :id, :title, :description, :slug, :status, :created_at, :updated_at, :votes_count, :upvotes,
+      :downvotes, :is_bloggable, :published_at, :last_published_at
+
+    json.display_date post.published_at || post.last_published_at
 
     json.user do
       json.extract! post.user, :id, :name

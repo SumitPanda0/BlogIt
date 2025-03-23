@@ -27,7 +27,6 @@ const UserPosts = () => {
   const history = useHistory();
   const isLoggedIn = !!getFromLocalStorage("authToken");
   const [selectedPosts, setSelectedPosts] = useState([]);
-  logger.log(selectedPosts);
   const [isPaneOpen, setIsPaneOpen] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState({
     title: true,
@@ -204,7 +203,7 @@ const UserPosts = () => {
         : formatDate(post.created_at);
     }
 
-    return post.created_at ? formatDate(post.created_at) : "Date unavailable";
+    return post.updated_at ? formatDate(post.updated_at) : "Date unavailable";
   };
 
   const allColumnData = [

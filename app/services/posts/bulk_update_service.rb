@@ -15,15 +15,27 @@ module Posts
 
       posts_to_update = Post.where(id: post_ids, user_id: current_user.id)
 
-      # If changing to published, only update posts that are not already published
-      # to avoid updating the last published date unnecessarily
       if status == "published"
-        posts_to_update = posts_to_update.where.not(status: "published")
-      end
+        # Only select posts that aren't already published
+        draft_posts = posts_to_update.where(status: "draft")
 
-      # Return true even if no posts were updated
-      posts_to_update.update_all(status: status)
-      true
+        # For draft posts, we need to update with callbacks to manage timestamps
+        # Using update_all would skip callbacks
+        draft_posts.find_each do |post|
+          post.update(status: "published")
+        end
+
+        # Return true if at least one post was updated
+        draft_posts.any?
+      else
+        # For drafts, update with callbacks as well
+        posts_published = posts_to_update.where(status: "published")
+        posts_published.find_each do |post|
+          post.update(status: "draft")
+        end
+
+        posts_published.any?
+      end
     end
   end
 end

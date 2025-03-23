@@ -37,7 +37,10 @@ class Api::V1::PostsController < ApplicationController
 
   def update
     authorize @post
+
+    old_status = @post.status
     @post.update!(post_params)
+
     render_notice("Post was successfully updated") unless params.key?(:quiet)
   end
 

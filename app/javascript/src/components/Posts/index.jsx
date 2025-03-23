@@ -114,13 +114,19 @@ const Posts = () => {
   };
 
   const getDisplayDate = post => {
+    if (post.display_date) {
+      return post.display_date;
+    }
+
     if (post.status === "published") {
-      return post.updated_at
-        ? formatDate(post.updated_at)
+      return post.published_at
+        ? formatDate(post.published_at)
         : formatDate(post.created_at);
     }
 
-    return post.created_at ? formatDate(post.created_at) : "Date unavailable";
+    return post.last_published_at
+      ? `Last published: ${formatDate(post.last_published_at)}`
+      : "Never published";
   };
 
   const getSelectedCategoryNames = () => {
