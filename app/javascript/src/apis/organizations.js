@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const fetch = () => axios.get("/api/v1/organizations");
+import { ORGANIZATIONS_URL } from "../constants";
+
+const fetch = () => axios.get(ORGANIZATIONS_URL);
 
 const organizationsApi = {
   fetch,

@@ -28,7 +28,7 @@ class Api::V1::PostsController < ApplicationController
       post.category_ids = params[:post][:category_ids]
     end
 
-    render_notice("Post was successfully created")
+    render_notice(t("successfully_created", entity: "Post"))
   end
 
   def show
@@ -37,17 +37,14 @@ class Api::V1::PostsController < ApplicationController
 
   def update
     authorize @post
-
-    old_status = @post.status
     @post.update!(post_params)
-
-    render_notice("Post was successfully updated") unless params.key?(:quiet)
+    render_notice(t("successfully_updated", entity: "Post")) unless params.key?(:quiet)
   end
 
   def destroy
     authorize @post
     @post.destroy!
-    render_notice("Post was successfully deleted") unless params.key?(:quiet)
+    render_notice(t("successfully_deleted", entity: "Post")) unless params.key?(:quiet)
   end
 
   def user_posts

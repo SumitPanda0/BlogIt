@@ -1,18 +1,20 @@
 import axios from "axios";
 
+import { CATEGORIES_URL } from "../constants";
+
 const fetch = (search = "") => {
   const params = search ? { search } : {};
 
-  return axios.get("/api/v1/categories", { params });
+  return axios.get(CATEGORIES_URL, { params });
 };
 
 const create = ({ name }) => {
   const payload = { name };
 
-  return axios.post("/api/v1/categories", { category: payload });
+  return axios.post(CATEGORIES_URL, { category: payload });
 };
 
-const show = id => axios.get(`/api/v1/categories/${id}`);
+const show = id => axios.get(`${CATEGORIES_URL}/${id}`);
 
 const categoriesApi = { fetch, create, show };
 

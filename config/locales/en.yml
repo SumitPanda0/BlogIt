@@ -34,6 +34,8 @@ en:
     logged_out_successfully: "Logged out successfully"
   successfully_created: "%{entity} was successfully created!"
   successfully_updated: "%{entity} was successfully updated!"
+  successfully_deleted: "%{entity} was successfully deleted!"
+    
   generic_error: "Something went wrong. Please try again later."
   report:
     render: "Rendering the report"

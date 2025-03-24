@@ -4,7 +4,6 @@ class ReportsJob
   include Sidekiq::Job
 
   def perform(user_id, post_id)
-    puts "Performing report job"
     ActionCable.server.broadcast(user_id, { message: I18n.t("report.render"), progress: 25 })
     post = Post.find(post_id)
     html_report = ApplicationController.render(

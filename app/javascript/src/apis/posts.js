@@ -44,15 +44,15 @@ const fetchUserPosts = (filters = {}) =>
   });
 
 const bulkUpdateStatus = ({ post_ids, status }) =>
-  axios.post("/api/v1/posts/bulk_update", { post_ids, status });
+  axios.post(`${POSTS_URL}/bulk_update`, { post_ids, status });
 
 const bulkDestroy = ({ post_ids }) =>
-  axios.post("/api/v1/posts/bulk_destroy", { post_ids });
+  axios.post(`${POSTS_URL}/bulk_destroy`, { post_ids });
 
-const generatePdf = postId => axios.post(`/api/v1/posts/report`, { postId });
+const generatePdf = postId => axios.post(`${POSTS_URL}/report`, { postId });
 
 const download = postId =>
-  axios.get(`/api/v1/posts/report/download`, {
+  axios.get(`${POSTS_URL}/report/download`, {
     responseType: "blob",
     params: { postId },
   });

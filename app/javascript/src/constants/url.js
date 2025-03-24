@@ -4,3 +4,7 @@ export const LIST_URL = `${BASE_URL}/list`;
 export const SHOW_URL = `${BASE_URL}/posts/:slug`;
 export const CREATE_URL = `${BASE_URL}/posts`;
 export const UPDATE_URL = `${BASE_URL}/posts/:slug`;
+export const ORGANIZATIONS_URL = `${BASE_URL}/organizations`;
+export const CATEGORIES_URL = `${BASE_URL}/categories`;
+export const SESSIONS_URL = `${BASE_URL}/sessions`;
+export const USERS_URL = `${BASE_URL}/users`;

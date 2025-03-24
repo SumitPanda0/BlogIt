@@ -1,8 +1,10 @@
 import axios from "axios";
 
+import { POSTS_URL } from "../constants";
+
 const votesApi = {
   vote: ({ payload }) =>
-    axios.post(`/api/v1/posts/${payload.postSlug}/vote`, {
+    axios.post(`${POSTS_URL}/${payload.postSlug}/vote`, {
       vote_type: payload.voteType,
     }),
 };

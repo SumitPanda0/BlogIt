@@ -2,7 +2,7 @@ import React from "react";
 
 import { NoData } from "@bigbinary/neetoui";
 
-import { BASE_URL } from "../constants";
+import { BASE_URL } from "../components/constants";
 import withTitle from "../utils/withTitle";
 
 const PageNotFound = () => (
@@ -18,4 +18,4 @@ const PageNotFound = () => (
   </div>
 );
 
-export default withTitle(PageNotFound);
+export default withTitle(PageNotFound, "Page Not Found");

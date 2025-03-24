@@ -5,6 +5,12 @@ class Api::V1::SessionsController < ApplicationController
 
   def create
     @user = User.find_by(email: login_params[:email].downcase)
+
+    unless @user
+      render_error(t("not_found", entity: "User"), :not_found)
+      return
+    end
+
     unless @user.authenticate(login_params[:password])
       render_error(t("session.incorrect_credentials"), :unauthorized)
     end

@@ -15,7 +15,7 @@ class Api::V1::CategoriesController < ApplicationController
     @category = Category.new(category_params)
 
     if @category.save
-      @notice = "Category was successfully created"
+      @notice = t("successfully_created", entity: "Category")
       render :create, status: :ok
     else
       render status: :unprocessable_entity, json: {

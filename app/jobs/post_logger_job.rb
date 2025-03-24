@@ -8,6 +8,5 @@ class PostLoggerJob
     post = Post.find(post_id)
     message = LoggerMessageBuilderService.new(post).process!
     log = Log.create!(post_id: post.id, message:)
-    puts log.message
   end
 end

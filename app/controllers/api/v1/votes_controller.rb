@@ -5,8 +5,6 @@ class Api::V1::VotesController < ApplicationController
   before_action :load_post!
 
   def vote
-    puts "Vote action - current_user: #{current_user.inspect}"
-
     vote = current_user.votes.find_or_initialize_by(post: @post)
 
     if vote.persisted? && vote.vote_type.to_s == params[:vote_type]
@@ -17,7 +15,6 @@ class Api::V1::VotesController < ApplicationController
     end
 
     @post.reload
-    puts "Post votes: #{@post.votes.map { |v| [v.user_id, v.vote_type] }}"
 
     render "api/v1/posts/show"
   end
