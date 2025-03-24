@@ -12,7 +12,6 @@ module Posts
     def process
       return false unless post_ids.present?
 
-      # Only allow deletion of the user's own posts
       posts_to_delete = Post.where(id: post_ids, user_id: current_user.id)
       posts_to_delete.destroy_all
       true

@@ -111,18 +111,14 @@ class PostTest < ActiveSupport::TestCase
     @post.title = "Test Post"
     @post.save!
 
-    # Create another post with same title
     second_post = build(:post, title: "Test Post")
     second_post.save!
 
-    # Slug should be incremented
     assert_equal "test-post-2", second_post.slug
 
-    # Create a third post with same title
     third_post = build(:post, title: "Test Post")
     third_post.save!
 
-    # Slug should be incremented again
     assert_equal "test-post-3", third_post.slug
   end
 
@@ -134,6 +130,6 @@ class PostTest < ActiveSupport::TestCase
     @post.categories << category1
     @post.categories << category2
 
-    assert_equal 3, @post.categories.count # Including the one added in factory
+    assert_equal 3, @post.categories.count
   end
 end

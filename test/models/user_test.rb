@@ -121,12 +121,9 @@ class UserTest < ActiveSupport::TestCase
     user = User.new(name: "Test User", email: "test@example.com")
     assert user.send(:password_required?)
 
-    # When password is present
     user = User.new(name: "Test User", email: "test@example.com", password: "welcome")
     assert user.send(:password_required?)
 
-    # When password_digest is present and password is not
-    # Create a user directly with a password_digest but no password
     user = User.new(
       name: "Test User",
       email: "test2@example.com",

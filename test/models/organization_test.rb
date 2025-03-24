@@ -47,8 +47,4 @@ class OrganizationTest < ActiveSupport::TestCase
       @organization.destroy
     end
   end
-
-  # test "the truth" do
-  #   assert true
-  # end
 end

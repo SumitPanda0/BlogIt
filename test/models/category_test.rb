@@ -38,8 +38,4 @@ class CategoryTest < ActiveSupport::TestCase
 
     assert_equal 2, @category.posts.count
   end
-
-  # test "the truth" do
-  #   assert true
-  # end
 end
