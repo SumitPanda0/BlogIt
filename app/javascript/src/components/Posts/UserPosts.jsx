@@ -24,8 +24,6 @@ const UserPosts = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const history = useHistory();
-  const isLoggedIn = !!getFromLocalStorage("authToken");
   const [selectedPosts, setSelectedPosts] = useState([]);
   const [isPaneOpen, setIsPaneOpen] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState({
@@ -41,11 +39,15 @@ const UserPosts = () => {
     category: "",
     status: "",
   });
-  const [appliedFilters, setAppliedFilters] = useState({});
-
-  const { Menu, MenuItem, Divider } = Dropdown;
   const [postToDelete, setPostToDelete] = useState(null);
   const [isBulkDeleteAlertOpen, setIsBulkDeleteAlertOpen] = useState(false);
+  const [appliedFilters, setAppliedFilters] = useState({});
+
+  const history = useHistory();
+
+  const isLoggedIn = !!getFromLocalStorage("authToken");
+
+  const { Menu, MenuItem, Divider } = Dropdown;
 
   const fetchUserPosts = async () => {
     try {

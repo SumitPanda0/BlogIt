@@ -22,13 +22,13 @@ const Login = ({ handleSubmit, setEmail, setPassword, loading }) => (
           label="Email"
           placeholder="oliver@example.com"
           type="email"
-          onChange={e => setEmail(e.target.value)}
+          onChange={event => setEmail(event.target.value)}
         />
         <Input
           label="Password"
           placeholder="********"
           type="password"
-          onChange={e => setPassword(e.target.value)}
+          onChange={event => setPassword(event.target.value)}
         />
         <Button
           className="justify-center"

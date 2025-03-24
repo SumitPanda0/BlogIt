@@ -218,8 +218,8 @@ const Posts = () => {
                         ? "bg-green-600 text-white"
                         : ""
                     }`}
-                    onClick={e => {
-                      e.preventDefault();
+                    onClick={event => {
+                      event.preventDefault();
                       handleVote(post.slug, "upvote");
                     }}
                   />
@@ -235,8 +235,8 @@ const Posts = () => {
                         ? "bg-red-600 text-white"
                         : ""
                     }`}
-                    onClick={e => {
-                      e.preventDefault();
+                    onClick={event => {
+                      event.preventDefault();
                       handleVote(post.slug, "downvote");
                     }}
                   />

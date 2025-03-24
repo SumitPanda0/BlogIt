@@ -28,7 +28,9 @@ const FilterPane = ({
             <Input
               placeholder="Filter by title"
               value={filters.title}
-              onChange={e => handleFilterChange("title", e.target.value)}
+              onChange={event =>
+                handleFilterChange("title", event.target.value)
+              }
             />
           </div>
           <div>

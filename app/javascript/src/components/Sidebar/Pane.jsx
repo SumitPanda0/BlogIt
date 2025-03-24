@@ -32,8 +32,8 @@ const Pane = ({ onCategorySelect, selectedCategoryIds = [] }) => {
     fetchCategories();
   }, []);
 
-  const handleSearch = e => {
-    const value = e.target.value;
+  const handleSearch = event => {
+    const value = event.target.value;
     setSearchTerm(value);
     debouncedFetchCategories(value);
   };

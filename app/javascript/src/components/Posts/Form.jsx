@@ -151,9 +151,9 @@ const Form = ({
               placeholder="Enter title"
               value={values.title}
               onBlur={handleBlur}
-              onChange={e => {
-                setTitle(e.target.value);
-                handleChange(e);
+              onChange={event => {
+                setTitle(event.target.value);
+                handleChange(event);
               }}
             />
             <div className="mt-2">
@@ -189,9 +189,9 @@ const Form = ({
               size="large"
               value={values.description}
               onBlur={handleBlur}
-              onChange={e => {
-                setDescription(e.target.value);
-                handleChange(e);
+              onChange={event => {
+                setDescription(event.target.value);
+                handleChange(event);
               }}
             />
           </>

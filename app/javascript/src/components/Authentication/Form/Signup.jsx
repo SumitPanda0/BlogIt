@@ -37,25 +37,25 @@ const Signup = ({
         <Input
           label="Name"
           placeholder="Oliver"
-          onChange={e => setName(e.target.value)}
+          onChange={event => setName(event.target.value)}
         />
         <Input
           label="Email"
           placeholder="oliver@example.com"
           type="email"
-          onChange={e => setEmail(e.target.value)}
+          onChange={event => setEmail(event.target.value)}
         />
         <Input
           label="Password"
           placeholder="********"
           type="password"
-          onChange={e => setPassword(e.target.value)}
+          onChange={event => setPassword(event.target.value)}
         />
         <Input
           label="Password Confirmation"
           placeholder="********"
           type="password"
-          onChange={e => setPasswordConfirmation(e.target.value)}
+          onChange={event => setPasswordConfirmation(event.target.value)}
         />
         <Select
           isSearchable
