@@ -10,6 +10,7 @@ import postsApi from "apis/posts";
 import DownloadReport from "./DownloadReport";
 
 import { PageLoader } from "../../common/PageLoader";
+import { getDisplayDate } from "../../utils/dateUtils";
 import { getFromLocalStorage } from "../../utils/storage";
 
 const Show = () => {
@@ -19,28 +20,6 @@ const Show = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { slug } = useParams();
   const history = useHistory();
-
-  const formatDate = dateString => {
-    const date = new Date(dateString);
-
-    return `${date.getDate()} ${date.toLocaleString("default", {
-      month: "long",
-    })} ${date.getFullYear()}, ${date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    })}`;
-  };
-
-  const getDisplayDate = post => {
-    if (post.status === "published") {
-      return post.updated_at
-        ? formatDate(post.updated_at)
-        : formatDate(post.created_at);
-    }
-
-    return post.created_at ? formatDate(post.created_at) : "Date unavailable";
-  };
 
   const fetchPostDetails = async () => {
     try {

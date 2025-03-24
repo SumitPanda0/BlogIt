@@ -16,6 +16,7 @@ import FilterPane from "./FilterPane";
 import postsApi from "../../apis/posts";
 import FilterTags from "../../common/FilterTags";
 import { PageLoader } from "../../common/PageLoader";
+import { formatDate, getDisplayDate } from "../../utils/dateUtils";
 import { getFromLocalStorage } from "../../utils/storage";
 import TruncatedText from "../utils/TruncatedText";
 
@@ -185,30 +186,6 @@ const UserPosts = () => {
       </div>
     );
   }
-
-  const formatDate = dateString => {
-    const date = new Date(dateString);
-
-    return `${date.getDate()} ${date.toLocaleString("default", {
-      month: "long",
-    })} ${date.getFullYear()}, ${date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    })}`;
-  };
-
-  const getDisplayDate = post => {
-    if (post.status === "published") {
-      return post.published_at
-        ? formatDate(post.published_at)
-        : formatDate(post.created_at);
-    }
-
-    return post.last_published_at
-      ? `${formatDate(post.last_published_at)}`
-      : "Never published";
-  };
 
   const allColumnData = [
     {

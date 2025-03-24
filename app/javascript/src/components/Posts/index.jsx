@@ -9,6 +9,7 @@ import categoriesApi from "../../apis/categories";
 import postsApi from "../../apis/posts";
 import votesApi from "../../apis/votes";
 import { PageLoader } from "../../common/PageLoader";
+import { getDisplayDate } from "../../utils/dateUtils";
 import { getFromLocalStorage } from "../../utils/storage";
 
 const Posts = () => {
@@ -101,30 +102,6 @@ const Posts = () => {
     );
   }
 
-  const formatDate = dateString => {
-    const date = new Date(dateString);
-
-    return `${date.getDate()} ${date.toLocaleString("default", {
-      month: "long",
-    })} ${date.getFullYear()}, ${date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    })}`;
-  };
-
-  const getDisplayDate = post => {
-    if (post.status === "published") {
-      return post.published_at
-        ? formatDate(post.published_at)
-        : formatDate(post.created_at);
-    }
-
-    return post.last_published_at
-      ? `Last published: ${formatDate(post.last_published_at)}`
-      : "Never published";
-  };
-
   const getSelectedCategoryNames = () => {
     if (!selectedCategoryIds.length) return "";
 
@@ -197,7 +174,9 @@ const Posts = () => {
                     )}
                   </div>
                   <div className="text-xs text-gray-500">
-                    {getDisplayDate(post)}
+                    {post.status === "draft" && post.last_published_at
+                      ? `Last published: ${getDisplayDate(post)}`
+                      : getDisplayDate(post)}
                   </div>
                   <div className="post-meta">
                     {post.status === "draft" && (
